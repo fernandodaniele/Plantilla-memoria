@@ -19,6 +19,52 @@ Introducción al capítulo
 
 %----------------------------------------------------------------------------------------
 \section{Requerimientos}
+\label{sec:requerimientos}
+
+\begin{itemize}
+\item Interfaces Externas
+	\begin{itemize}
+	\item El hardware deberá contar con una pantalla TFT táctil. [TPA-ERH-01-REQ001]
+	\item El hardware deberá contar con un lector de tarjetas SD. [TPA-ERH-01-REQ002]
+	\item El hardware deberá contar con un driver para un motor paso a paso Nema 17. [TPA-ERH-01-REQ003]
+	\item El hardware deberá contar con una entrada para un electrodo de pH. [TPA-ERH-01-REQ004]
+\end{itemize}
+	
+\item Funciones
+	\begin{itemize}
+	\item El usuario podrá elegir mediante la pantalla táctil los valores de tres muestras patrones (buffers) que se utilizarán en la calibración. [TPA-ERS-01-REQ001]
+El usuario podrá elegir mediante la pantalla táctil el volumen de corte de la titulación. [TPA-ERS-01-REQ002]
+	\item El usuario podrá elegir mediante la pantalla táctil si utilizar o no el agitador. Cuando el proceso de titulación comience, el agitador debe activarse si así lo indicó el usuario. [TPA-ERS-01-REQ003]
+	\item El usuario podrá realizar mediante la pantalla táctil el proceso de calibración con cada uno de los tres buffers. [TPA-ERS-01-REQ004]
+	\item Los valores de potencial obtenidos en el proceso de la calibración se deben guardar en la memoria flash del ESP32. [TPA-ERS-01-REQ005]
+	\item El valor de pH se debe calcular de manera proporcional a la recta de ajuste de los valores de potencial obtenidos en la calibración. [TPA-ERS-01-REQ006]
+	\item El usuario podrá dar inicio al proceso de titulación mediante la pantalla táctil. [TPA-ERS-01-REQ007]
+	\item Durante la titulación, la pantalla debe mostrar el valor actual leído en mV y en pH y una gráfica de pH en el eje de la ordenadas y de volumen de titulante añadido en el eje de las abscisas. [TPA-ERS-01-REQ008]
+	\item Cada valor de volumen añadido junto al valor de potencial asociado durante el proceso de titulación deben almacenarse en un archivo de texto en la tarjeta sd. No es necesario que esto se haga en tiempo real. Al iniciar otro proceso de titulación, los datos de la titulación anterior serán eliminados. [TPA-ERS-01-REQ009]
+	\item Cada valor de volumen añadido junto al valor de potencial asociado durante el proceso de titulación deben mostrarse en una página web almacenada en la memoria flash. [TPA-ERS-01-REQ010]
+	\item El usuario podrá acceder a la página web mediante una conexión wifi. No es necesario que esto se haga en tiempo real. [TPA-ERS-01-REQ011]
+	\item El sistema deberá ser capaz de leer y mostrar el potencial entregado por un electrodo de pH, con una resolución de 1 mV para la lectura del potencial y de 0.01 pH para su conversión a pH. Para ello se utilizará el conversor analógico de 12 bits incorporado en el ESP32. [TPA-ERS-01-REQ012]
+	\item El sistema deberá enviar pulsos de 10 ms de ciclo útil al pin step del módulo dvr8825. El tiempo mínimo de espera entre cada pulso debe ser de 1 segundo luego que la lectura de potencial se haya estabilizado. El sistema dejará de enviar los pulsos cuando se haya inyectado la cantidad de volumen indicada por el usuario como volumen de corte. [TPA-ERS-01-REQ013]
+	\item Cada pulso se corresponde con el incremento de TBD mL en la cantidad de volumen inyectado, comenzando por un nivel de 0 mL. [TPA-ERS-01-REQ014]
+
+\end{itemize}
+
+\item Requisitos de Rendimiento
+	\begin{itemize}
+	\item El sistema deberá ser capaz de realizar titulaciones que involucren una cantidad mínima de 50 ml 	\item de titulante y una cantidad máxima de 100 ml. [TPA-ERS-01-REQ015]
+	\end{itemize}
+	
+\item Restricciones de Diseño
+	\begin{itemize}
+	\item Se utilizará el módulo ESP32 como computadora principal. [TPA-ERS-01-REQ016]
+	\end{itemize}
+	
+\item Requisitos Futuros
+	\begin{itemize}
+	\item El dispositivo contará con un control de lazo cerrado para la medición de volumen y el control de la bomba.
+	\item El usuario podrá acceder a todas la funcionalidades de manera remota mediante conexión WiFi o Bluetooth.
+	\end{itemize}
+\end{itemize}
 
 %----------------------------------------------------------------------------------------
 % TODO LO DE ACÁ ABAJO ES EL MODELO
