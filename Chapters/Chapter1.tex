@@ -104,23 +104,28 @@ En la figura \ref{fig:titThermo} se observa un ejemplo de un titulador comercial
 %----------------------------------------------------------------------------------------
 \section{Estado del arte}
 
-Existen gran variedad de tituladores potenciométricos automáticos en el mercado con diferentes características. La tabla \ref{tab:titComerciales} ilustra una comparativa entre algunos modelos de tituladores que disponen diferentes laboratorios de la región. \textbf{(acá podría explicar el contenido de la tabla)}
+Existen gran variedad de tituladores potenciométricos automáticos en el mercado con diferentes características. La tabla \ref{tab:titComerciales} ilustra una comparativa entre algunos modelos de tituladores que disponen diferentes laboratorios de la región. El principal punto a tener en cuenta es la exactitud, que en los casos analizados se mide en un porcentaje de bureta que contiene el titulante. Por ejemplo, para una bureta de 20 mL que es la que incluyen estos tituladores, la exactitud sería de 0,02 mL para los modelos Kem AT710 y Hanna HI901C1-01, y de 0,04 mL para el modelo Mettler Toledo G20. Otra característica importante son las opciones que tiene el usuario de interactuar con el titulador, que incluyen un display LCD y botones o panel táctil, conexión para impresora y unidad de almacenamiento, y capacidad de agregar un teclado o pantalla externa.
+
 
 \begin{table}[h]
 	\centering
 	\caption[caption corto]{Comparativa de tituladores comerciales}
-	\begin{tabular}{l c c}    
+	\begin{tabular}{l c c c }    
 		\toprule
-		\textbf{Marca} 	 & \textbf{Modelo} 		& \textbf{Características}  \\
+		\textbf{Marca y modelo} & \textbf{Exactitud}	&    \textbf{Display }&\textbf{Interfaces}  \\
 		\midrule
-		Kem					 & AT510 			& a \\		
-		Mettler Toledo		 & Compact			& b \\
-		Hanna				 & HI901C1-01		& c \\
+		Kem AT710 		 	& 0,1 \% & 5,7" 		& RS232, USB \\		
+		Mettler Toledo G20	& 0,2 \% & 5,7"  Touch	& Ethernet, COM, USB \\
+		Hanna HI901C1-01	 	& 0,1 \% & 5,7"		& VGA, USB, RS232 \\
 		\bottomrule
 		\hline
 	\end{tabular}
 	\label{tab:titComerciales}
 \end{table}
+
+Además de los datos mencionados en la tabla, cabe destacar que todos los tituladores tienen la capacidad de adicionar un sensor de temperatura y de cambiar el modelo de electrodo para poder realizar diferentes tipos de titulaciones potenciométricas.
+Debido a que la adquisición de los tituladores comerciales se justifica en laboratorios con gran número muestras a analizar y con diferentes tipos de titulaciones, diversos autores han propuesto  alternativas para automatizar el proceso para laboratorios pequeños o con fines educativos \citep{ARTICLE:1}\citep{ARTICLE:2}\citep{ARTICLE:3}.
+Estos trabajos incluyen el manejo de una bomba peristáltica y de un potenciómetro conectados a una computadora \citep{ARTICLE:1}; el diseño de un sistema de dosificación para titulaciones \citep{ARTICLE:2}; y el diseño de un titulador que usa una bomba peristáltica y adapta la señal que entrega un electrodo de pH \citep{ARTICLE:3}.
 
 %----------------------------------------------------------------------------------------
 \section{Motivación}
