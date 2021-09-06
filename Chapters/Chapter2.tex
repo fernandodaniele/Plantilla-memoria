@@ -5,67 +5,129 @@
 %----------------------------------------------------------------------------------------
 %	SECTION 1
 %----------------------------------------------------------------------------------------
-Introducción al capítulo
+En este capítulo se  realiza un revisión detallada de los dispositivos y tecnologías utilizados y que fueron desarrollados por terceros para comprender las decisiones de diseño tomadas que se mencionan en el capítulo \ref{Chapter3}. 
 
 %----------------------------------------------------------------------------------------
 \section{Electrodos de pH}
 \label{sec:electrodoPH}
 
+Un electrodo muy usado hoy en día, es el electrodo combinado que está formado por dos electrodos dentro del mismo encapsulado. En la figura \ref{fig:electrodoCombinado} se observa un electrodo combinado que está formado por un electrodo de vidrio que se encuentra dentro del tubo de vidrio interno, y un electrodo de referencia de Ag-AgCl que se encuentra dentro del tubo de epoxi externo, en una solución de KCl saturada.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=.5\textwidth]{./Figures/electrodoCombinado.png}
+	\caption{Electrodo combinado de pH de Ag/AgCl\protect\footnotemark.}
+	\label{fig:electrodoCombinado}
+\end{figure}
+
+\footnotetext{Imagen tomada de \url{https://aulavirtual.agro.unlp.edu.ar/pluginfile.php/36460/mod_resource/content/4/pHmetro.\%20Clase\%20te\%C3\%B3rica\%202do.\%20Cuatrimestre\%202017..pdf}}
+
+El potencial de un electrodo está dado por la ecuación de Nernst, que se puede escribir de manera simplificada como muestra la ecuación \ref{eq:Nernst} \citep{ARTICLE:4}.
+
+\begin{equation}
+	\label{eq:Nernst}
+E = E^{O} + k pH
+\end{equation}
+
+donde E es el potencial corregido del electrodo, $E^{O}$ es el potencial en condiciones estándar (valores tabulados), k una variable que depende de la temperatura y pH es el valor de pH de la muestra.
+
+En este trabajo se utilizó el electrodo comercial marca HANNA HI-1230B de la figura \ref{fig:hi-1230b}, definido por el área de Ingeniería Química, ya que permite realizar titulaciones potenciométricas ácido-base para detectar nitrógeno en suelo y alcalinidad en agua. Específicamente, este electrodo es de plata sumergido en una disolución de cloruro de potasio que se ha saturado con cloruro de plata, y presenta las características mostradas en la tabla \ref{tab:hi1230b}. 
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=.6\textwidth]{./Figures/hi-1230b.jpeg}
+	\caption{Electrodo hi-1230b.jpeg.}
+	\label{fig:hi-1230b}
+\end{figure}
+
+\begin{table}[h]
+	\centering
+	\caption[caption corto]{Especificaciones técnicas del electrodo HANNA HI-1230B a 25 °C}
+	\begin{tabular}{l c}    
+		\toprule
+		\textbf{Característica} & \textbf{Valor} \\
+		\midrule
+		Offset 7,01 pH	& 0,0 mV \\
+		Slope 4,01 pH	& 172,2 mV \\			
+		Tolerancia		& $\pm$ 10 mV  \\
+		\bottomrule
+		\hline
+	\end{tabular}
+	\label{tab:hi1230b}
+\end{table}
+
+En base a estos datos se puede crear la recta que relaciona la potencial del electrodo con el valor de pH y que está dada por la ecuación \ref{eq:phElectrodo}:
+
+\begin{equation}
+	\label{eq:phElectrodo}
+pH = -0,0174 E + 7,01
+\end{equation}
+
+donde E es el potencial entregado por el electrodo y pH es el valor correspondiente de pH de la muestra a 25 °C.
+
 %----------------------------------------------------------------------------------------
 \section{Bombas peristálticas}
 
+\textit{ NOTA: ESTA SECCIÓN SE ENCUENTRA EN CONSTRUCCIÓN. VER SECCIÓN DE REQUERIMIENTOS}
+En la figura \ref{fig:bombaPeristEsq} se muestra una bomba peristaltica.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=.6\textwidth]{./Figures/bombaPeristEsq.png}
+	\caption{Bomba peristáltica\protect\footnotemark.}
+	\label{fig:bombaPeristEsq}
+\end{figure}
+
+\footnotetext{Imagen tomada de \url{https://www.researchgate.net/figure/Figura-3-Principio-de-funcionamiento-de-una-bomba-peristaltica-de-3-rodillos_fig2_275959587}}
+
 %----------------------------------------------------------------------------------------
 \section{Otras técnologías utilizadas}
+\textit{ NOTA: ESTA SECCIÓN SE ENCUENTRA EN CONSTRUCCIÓN}
 
 %----------------------------------------------------------------------------------------
 \section{Requerimientos}
 \label{sec:requerimientos}
 
+En esta sección se detallan los requerimientos del sistema que fueron planteados en el plan trabajo, con ligeros cambios que surgieron durante el desarrollo del trabajo.
+
 \begin{itemize}
 \item Interfaces Externas
 	\begin{itemize}
-	\item El hardware deberá contar con una pantalla TFT táctil. [TPA-ERH-01-REQ001]
-	\item El hardware deberá contar con un lector de tarjetas SD. [TPA-ERH-01-REQ002]
-	\item El hardware deberá contar con un driver para un motor paso a paso Nema 17. [TPA-ERH-01-REQ003]
-	\item El hardware deberá contar con una entrada para un electrodo de pH. [TPA-ERH-01-REQ004]
+	\item El hardware debe contar con una pantalla TFT táctil. [TPA-ERH-01-REQ001]
+	\item El hardware debe contar con un lector de tarjetas SD. [TPA-ERH-01-REQ002]
+	\item El hardware debe contar con un driver para un motor paso a paso Nema 17. [TPA-ERH-01-REQ003]
+	\item El hardware debe contar con una entrada para un electrodo de pH. [TPA-ERH-01-REQ004]
 \end{itemize}
 	
 \item Funciones
 	\begin{itemize}
-	\item El usuario podrá elegir mediante la pantalla táctil los valores de tres muestras patrones (buffers) que se utilizarán en la calibración. [TPA-ERS-01-REQ001]
-El usuario podrá elegir mediante la pantalla táctil el volumen de corte de la titulación. [TPA-ERS-01-REQ002]
-	\item El usuario podrá elegir mediante la pantalla táctil si utilizar o no el agitador. Cuando el proceso de titulación comience, el agitador debe activarse si así lo indicó el usuario. [TPA-ERS-01-REQ003]
-	\item El usuario podrá realizar mediante la pantalla táctil el proceso de calibración con cada uno de los tres buffers. [TPA-ERS-01-REQ004]
-	\item Los valores de potencial obtenidos en el proceso de la calibración se deben guardar en la memoria flash del ESP32. [TPA-ERS-01-REQ005]
-	\item El valor de pH se debe calcular de manera proporcional a la recta de ajuste de los valores de potencial obtenidos en la calibración. [TPA-ERS-01-REQ006]
-	\item El usuario podrá dar inicio al proceso de titulación mediante la pantalla táctil. [TPA-ERS-01-REQ007]
-	\item Durante la titulación, la pantalla debe mostrar el valor actual leído en mV y en pH y una gráfica de pH en el eje de la ordenadas y de volumen de titulante añadido en el eje de las abscisas. [TPA-ERS-01-REQ008]
-	\item Cada valor de volumen añadido junto al valor de potencial asociado durante el proceso de titulación deben almacenarse en un archivo de texto en la tarjeta sd. No es necesario que esto se haga en tiempo real. Al iniciar otro proceso de titulación, los datos de la titulación anterior serán eliminados. [TPA-ERS-01-REQ009]
-	\item Cada valor de volumen añadido junto al valor de potencial asociado durante el proceso de titulación deben mostrarse en una página web almacenada en la memoria flash. [TPA-ERS-01-REQ010]
-	\item El usuario podrá acceder a la página web mediante una conexión wifi. No es necesario que esto se haga en tiempo real. [TPA-ERS-01-REQ011]
-	\item El sistema deberá ser capaz de leer y mostrar el potencial entregado por un electrodo de pH, con una resolución de 1 mV para la lectura del potencial y de 0.01 pH para su conversión a pH. Para ello se utilizará el conversor analógico de 12 bits incorporado en el ESP32. [TPA-ERS-01-REQ012]
-	\item El sistema deberá enviar pulsos de 10 ms de ciclo útil al pin step del módulo dvr8825. El tiempo mínimo de espera entre cada pulso debe ser de 1 segundo luego que la lectura de potencial se haya estabilizado. El sistema dejará de enviar los pulsos cuando se haya inyectado la cantidad de volumen indicada por el usuario como volumen de corte. [TPA-ERS-01-REQ013]
-	\item Cada pulso se corresponde con el incremento de TBD mL en la cantidad de volumen inyectado, comenzando por un nivel de 0 mL. [TPA-ERS-01-REQ014]
+	\item El usuario puede elegir mediante la pantalla táctil el volumen de corte de la titulación. [TPA-ERS-01-REQ001]
+	\item El usuario puede elegir mediante la pantalla táctil si utilizar o no el agitador. Cuando el proceso de titulación comienza, el agitador debe activarse si así lo indicó el usuario. [TPA-ERS-01-REQ002]
+	\item El usuario puede realizar mediante la pantalla táctil el proceso de calibración con cada uno de los tres buffers. [TPA-ERS-01-REQ003]
+	\item Los valores de potencial obtenidos en el proceso de la calibración se deben guardar en la memoria flash del ESP32. [TPA-ERS-01-REQ004]
+	\item El valor de pH se debe calcular de manera proporcional a la recta de ajuste de los valores de potencial obtenidos en la calibración. [TPA-ERS-01-REQ005]
+	\item El usuario puede dar inicio al proceso de titulación mediante la pantalla táctil. [TPA-ERS-01-REQ006]
+	\item Durante la titulación, la pantalla debe mostrar el valor actual leído en mV y en pH y una gráfica de pH en función del tiempo. [TPA-ERS-01-REQ007]
+	\item Cada valor de volumen añadido junto al valor de potencial asociado durante el proceso de titulación deben almacenarse en un archivo de texto en la tarjeta sd. No es necesario que esto se haga en tiempo real. [TPA-ERS-01-REQ008]
+	\item Cada valor de volumen añadido junto al valor de potencial asociado durante el proceso de titulación deben mostrarse en una página web almacenada en la memoria flash, una vez finalizada la titulación. [TPA-ERS-01-REQ009]
+	\item El usuario puede acceder a la página web mediante una conexión Wi-Fi. No es necesario que esto se haga en tiempo real. [TPA-ERS-01-REQ010]
+	\item El sistema debe ser capaz de leer y mostrar el potencial entregado por un electrodo de pH, con una resolución de 1 mV para la lectura del potencial y de 0,01 pH para su conversión a pH. [TPA-ERS-01-REQ011]
+	\item El sistema deberá inyectar una cantidad de 0,1 mL esperar 5 segundos para realizar la medición de pH. La cantidad inyectada puede ser de 1 mL si el cambio de ph entre las últimas dos mediciones es menor a 0,2. [TPA-ERS-01-REQ012]
+	 \item El sistema debe dejar de agregar titulante cuando se alcanza la cantidad de volumen indicada por el usuario como volumen de corte. [TPA-ERS-01-REQ013]
 
 \end{itemize}
 
 \item Requisitos de Rendimiento
 	\begin{itemize}
-	\item El sistema deberá ser capaz de realizar titulaciones que involucren una cantidad mínima de 50 ml 	\item de titulante y una cantidad máxima de 100 ml. [TPA-ERS-01-REQ015]
+	\item El sistema debe ser capaz de realizar titulaciones que involucren una cantidad máxima de 100 ml. [TPA-ERS-01-REQ014]
 	\end{itemize}
 	
 \item Restricciones de Diseño
 	\begin{itemize}
-	\item Se utilizará el módulo ESP32 como computadora principal. [TPA-ERS-01-REQ016]
+	\item Se utiliza el módulo ESP32 como computadora principal. [TPA-ERS-01-REQ015]
+	\item Se utiliza la pantalla táctil MCU-FRIEND 2,4" como interfaz de usuario. [TPA-ERS-01-REQ016]
 	\end{itemize}
-	
-\item Requisitos Futuros
-	\begin{itemize}
-	\item El dispositivo contará con un control de lazo cerrado para la medición de volumen y el control de la bomba.
-	\item El usuario podrá acceder a todas la funcionalidades de manera remota mediante conexión WiFi o Bluetooth.
-	\end{itemize}
-\end{itemize}
-
+\end{itemize}	
 %----------------------------------------------------------------------------------------
 % TODO LO DE ACÁ ABAJO ES EL MODELO
 
