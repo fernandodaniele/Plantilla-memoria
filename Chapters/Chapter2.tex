@@ -11,7 +11,7 @@ En este capítulo se  realiza un revisión detallada de los dispositivos y tecno
 \section{Electrodos de pH}
 \label{sec:electrodoPH}
 
-Un electrodo muy usado hoy en día, es el electrodo combinado que está formado por dos electrodos dentro del mismo encapsulado. En la figura \ref{fig:electrodoCombinado} se observa un electrodo combinado que está formado por un electrodo de vidrio que se encuentra dentro del tubo de vidrio interno, y un electrodo de referencia de Ag-AgCl que se encuentra dentro del tubo de epoxi externo, en una solución de KCl saturada.
+Un electrodo muy usado hoy en día, es el electrodo combinado que está formado por dos electrodos dentro del mismo encapsulado. En la figura \ref{fig:electrodoCombinado} se observa un electrodo combinado que está formado por un electrodo de referencia, que consiste en un alambre clorurado de plata en una solución de KCl saturada, y un electrodo indicador, formado por el alambre clorurado de plata más una membrana de vidrio sensible al pH.
 
 \begin{figure}[htbp]
 	\centering
@@ -20,69 +20,145 @@ Un electrodo muy usado hoy en día, es el electrodo combinado que está formado 
 	\label{fig:electrodoCombinado}
 \end{figure}
 
-\footnotetext{Imagen tomada de \url{https://aulavirtual.agro.unlp.edu.ar/pluginfile.php/36460/mod_resource/content/4/pHmetro.\%20Clase\%20te\%C3\%B3rica\%202do.\%20Cuatrimestre\%202017..pdf}}
+\footnotetext{Imagen tomada de \url{http://depa.fquim.unam.mx/amyd/archivero/ELECTRODOSDEMEDIDAYDEREFERENCIA_22645.pdf}}
 
-El potencial de un electrodo está dado por la ecuación de Nernst, que se puede escribir de manera simplificada como muestra la ecuación \ref{eq:Nernst} \citep{ARTICLE:4}.
+El potencial de un electrodo está dado por la ecuación de Nernst, que se puede escribir de manera simplificada como muestra la ecuación \ref{eq:Nernst} .
 
 \begin{equation}
 	\label{eq:Nernst}
-E = E^{O} + k pH
+E = E_{0} + k pH
 \end{equation}
+\citep{ARTICLE:4}
 
-donde E es el potencial corregido del electrodo, $E^{O}$ es el potencial en condiciones estándar (valores tabulados), k una variable que depende de la temperatura y pH es el valor de pH de la muestra.
+donde E es el potencial corregido del electrodo, $E_{0}$ es el potencial en condiciones estándar (valores tabulados), k una variable que depende de la temperatura y pH es el valor de pH de la muestra.
 
-En este trabajo se utilizó el electrodo comercial marca HANNA HI-1230B de la figura \ref{fig:hi-1230b}, definido por el área de Ingeniería Química, ya que permite realizar titulaciones potenciométricas ácido-base para detectar nitrógeno en suelo y alcalinidad en agua. Específicamente, este electrodo es de plata sumergido en una disolución de cloruro de potasio que se ha saturado con cloruro de plata, y presenta las características mostradas en la tabla \ref{tab:hi1230b}. 
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=.6\textwidth]{./Figures/hi-1230b.jpeg}
-	\caption{Electrodo hi-1230b.jpeg.}
-	\label{fig:hi-1230b}
-\end{figure}
-
-\begin{table}[h]
-	\centering
-	\caption[caption corto]{Especificaciones técnicas del electrodo HANNA HI-1230B a 25 °C}
-	\begin{tabular}{l c}    
-		\toprule
-		\textbf{Característica} & \textbf{Valor} \\
-		\midrule
-		Offset 7,01 pH	& 0,0 mV \\
-		Slope 4,01 pH	& 172,2 mV \\			
-		Tolerancia		& $\pm$ 10 mV  \\
-		\bottomrule
-		\hline
-	\end{tabular}
-	\label{tab:hi1230b}
-\end{table}
-
-En base a estos datos se puede crear la recta que relaciona la potencial del electrodo con el valor de pH y que está dada por la ecuación \ref{eq:phElectrodo}:
+En este trabajo se utilizó el electrodo comercial marca HANNA HI-1230B de la figura \ref{fig:hi-1230b}, definido por el área de Ingeniería Química, ya que permite realizar titulaciones potenciométricas ácido-base para detectar nitrógeno en suelo y alcalinidad en agua. Específicamente, este electrodo es de plata sumergido en una disolución de cloruro de potasio que se ha saturado con cloruro de plata, y presenta un potencial de 0 mV para un valor de pH de 7,01, y una pendiente de -0,0174pH/mV. En base a estos datos se puede crear la recta que relaciona la potencial del electrodo con el valor de pH y que está dada por la ecuación \ref{eq:phElectrodo}:
 
 \begin{equation}
 	\label{eq:phElectrodo}
 pH = -0,0174 E + 7,01
 \end{equation}
 
-donde E es el potencial entregado por el electrodo y pH es el valor correspondiente de pH de la muestra a 25 °C.
-
-%----------------------------------------------------------------------------------------
-\section{Bombas peristálticas}
-
-\textit{ NOTA: ESTA SECCIÓN SE ENCUENTRA EN CONSTRUCCIÓN. VER SECCIÓN DE REQUERIMIENTOS}
-En la figura \ref{fig:bombaPeristEsq} se muestra una bomba peristaltica.
+donde E es el potencial entregado por el electrodo y pH es el valor correspondiente de pH de la muestra a 25 °C. Para una muestra con ph 0 la salida del electrodo es de 402,8 mV y para una muestra de ph 14 el potencial es de -401,7 mV.
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=.6\textwidth]{./Figures/bombaPeristEsq.png}
+	\includegraphics[width=.6\textwidth]{./Figures/hi-1230b.jpeg}
+	\caption{Electrodo HI-1230B.}
+	\label{fig:hi-1230b}
+\end{figure}
+
+%----------------------------------------------------------------------------------------
+\section{Bombas peristálticas}
+\label{sec:bomba}
+
+Una bomba peristáltica es un tipo de bomba hidráulica que se emplea para transportar diferentes tipos de líquidos, y generalmente es usada cuando se emplean fluidos limpios o estériles ya que el mecanismo de la bomba no los contamina al desplazarlos \citep{ARTICLE:5}. Está formada por una manguera flexible situada dentro de la cubierta de la bomba, que puede ser circular o lineal, y un rotor compuesto por varios rodillos que comprimen la manguera, tal y como se muestra en la figura \ref{fig:bombaPeristEsq}. Cuando el rotor gira, se genera un vacío que hace que el líquido ingrese y fluya por la manguera.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=.4\textwidth]{./Figures/bombaPeristEsq.png}
 	\caption{Bomba peristáltica\protect\footnotemark.}
 	\label{fig:bombaPeristEsq}
 \end{figure}
 
 \footnotetext{Imagen tomada de \url{https://www.researchgate.net/figure/Figura-3-Principio-de-funcionamiento-de-una-bomba-peristaltica-de-3-rodillos_fig2_275959587}}
 
+
+Para este trabajo se utilizó la bomba desarrollada por el área de electromecánica, que hace uso de un motor paso a paso bipolar Nema 17 marca Usongshine, como se aprecia en la figura \ref{fig:bombaAtras}.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=.5\textwidth]{./Figures/bombaAtras.jpeg}
+	\caption{Bomba peristáltica desarrollada por el área de Ingeniería Electromecánica. Vista del motor.}
+	\label{fig:bombaAtras}
+\end{figure}
+
+La carcasa, el rotor y la cubierta exterior están impresas con ácido poliláctico (PLA) Grilon y contiene dos tipos de mangueras: una manguera PharMed BPT de 4 mm de diámetro exterior y 0,8 mm de diámetro interior que soporta las deformaciones cíclicas producidas por los rodillos del rotor, y dos mangueras genéricas de silicona para los tramos de entrada y salida. En las figura \ref{fig:bombaFrente} se observan los componentes mencionados.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=.6\textwidth]{./Figures/bombaFrente.jpg}
+	\caption{Bomba peristáltica desarrollada por el área de Ingeniería Electromecánica. Vista de los rodillos.}
+	\label{fig:bombaFrente}
+\end{figure}
+
+%con un rango de voltaje apto de 5 a 36V, torque de 42 N.cm, máxima corriente 1,7A, de 1.8° por paso, lo que implica que para lograr una vuelta entera del eje (360°) el motor debe dar unos 200 pasos. 
+
+%El diseño de las piezas mecánicas se basó en una bomba peristáltica de precisión. Para el modelado 3D se empleó el software SolidWorks®. La impresión de la carcasa, rotor y cubeta exterior se realizó con ácido poliláctico (PLA) Grilon.
+
+%En relación con la selección de tubos flexibles o mangueras, se utilizaron dos tipos. Por un lado, una manguera PharMed BPT (de alta calidad, resistencia química, diseñada especialmente para aplicaciones de bombas peristálticas de 4 mm de diámetro exterior y 0,8 mm de diámetro interior), se empleó en la cubierta circular interior que posee la bomba y que soportará las deformaciones cíclicas producidas por los rodillos del rotor.
+
+%Por otro lado, se utilizaron mangueras genéricas de silicona (de 4mm diámetro exterior y 0.8mm diámetro interior) para los tramos de entrada y salida de la bomba.
+
 %----------------------------------------------------------------------------------------
-\section{Otras técnologías utilizadas}
-\textit{ NOTA: ESTA SECCIÓN SE ENCUENTRA EN CONSTRUCCIÓN}
+\section{Otras tecnologías utilizadas}
+
+Este trabajo se enfocó en el diseño de un prototipo de titulador, con el foco puesto en el software más que en el hardware. Es por eso que se buscaron alternativas del tipo "módulo" para los diferentes componentes, de tal forma que permita una rápida conexión del hardware y delegar la mayor parte del tiempo al desarrollo del firmware. En cada una de las siguientes secciones se describen los módulos utilizados.
+
+\subsection{Microcontrolador ESP32}
+
+Para el desarrollo del prototipo se utilizó la placa de desarrollo ESP32-DevKitC de la figura \ref{fig:ESP32.jpeg}. Esta placa contiene un módulo ESP32 con Wi-Fi y Bluetooth integrado y un sistema de doble núcleo, cada uno con un CPU Xtensa LX6 de 32 bit.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=.4\textwidth]{./Figures/ESP32.jpeg}
+	\caption{Placa de desarrollo ESP32-DevKitC.}
+	\label{fig:ESP32.jpeg}
+\end{figure}
+
+Las principales características de esta placa de desarrollo que se tuvieron en cuenta para el desarrollo del trabajo son las siguientes:
+	\begin{itemize}
+		\item Clock a 160 MHz.
+		\item 4 MB de memoria flash.
+		\item Wi-Fi: 802.11 b/g/n.
+		\item 12-bit SAR ADC de hasta 18 canales.
+		\item 3 × UART
+		\item Controlador host SD
+		\item PWM
+	\end{itemize}
+
+Para el desarrollo del software se utilizó el framework ESP-IDF de Espressif Systems, que ofrece una API para trabajar con una versión de FreeRTOS adaptada para aprovechar el doble núcleo del procesador, asi como también para el resto de los periféricos mencionados anteriormente.
+
+\subsection{Pantalla táctil}
+
+Los tituladores comerciales cuentan con una pantalla a través de la cuál se muestra una interfaz de usuario que permite acceder a las configuraciones y controlar las distintas funciones. En algunos casos la pantalla está acompañada por un teclado y en otros casos cuenta directamente con un panel táctil. Para este trabajo se decidió optar por la segunda opción ya que permite mayor flexibilidad a la hora de realizar cambios en la interfaz.
+
+Entre las opciones disponibles en el mercado, se optó por módulo MCUFRIEND de la figura \ref{fig:LCDFrente} que contiene una pantalla LCD de 2,4" con un panel táctil y un lector de tarjetas SD.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=.4\textwidth]{./Figures/LCDFrente.jpeg}
+	\caption{LCD táctil MCUFRIEND.}
+	\label{fig:LCDFrente}
+\end{figure}
+
+\subsection{\textit{Driver} para motor}
+
+Previamente, en la sección \ref{sec:bomba}, se mencionó que la bomba utiliza un motor paso a paso. Para que el módulo ESP32 pueda controlarlo es necesario utilizar un \textit{driver} que otorgue los niveles de tensión y corriente necesarios para su correcto funcionamiento.
+
+Para este trabajo se utilizó el módulo DRV8825 de la figura \ref{fig:DRV8825-Frente}, que permite el manejo de motores paso a paso de hasta 2,5 A y tiene la posibilidad de utilizar \textit{microsteping} 1/32.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=.3\textwidth]{./Figures/DRV8825-Frente.jpeg}
+	\caption{\textit{Driver} para motor paso a paso DRV8825.}
+	\label{fig:DRV8825-Frente}
+\end{figure}
+
+La técnica de \textit{microsteping} permite multiplicar la cantidad de pasos que puede dar un motor para realizar una vuelta. De esta forma se puede aumentar la resolución de giro, es decir, disminuir el ángulo de paso del motor, lo que se traduce a una menor cantidad de volumen inyectada por cada paso.
+
+\subsection{Módulo de adaptación para electrodo}
+
+En la sección \ref{sec:electrodoPH} se mencionó que el electrodo entrega un potencial que va a depender del pH de la muestra y se ubica entre -401,7 y 402,8 mV. Para poder procesar estos valores con el ADC del ESP32, cuyo rango de entrada es de 0 a 3500 mV, es necesario adaptar esa señal para amplificar la tensión y adaptar impedancias. Para eso se utilizó el módulo pH-4502C de la figura \ref{fig:pH-4502C}.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=.4\textwidth]{./Figures/pH-4502C.jpeg}
+	\caption{Módulo pH-4502C.}
+	\label{fig:pH-4502C}
+\end{figure}
+
+El módulo PH-4502C está formado por dos etapas. En la Fig. 4 se observa la etapa de amplificación de la señal, la cual utiliza un amplificador operacional con una configuración del tipo no inversor y con una ganancia de 2. En la Fig. 5 se muestra la etapa que permite regular la tensión de referencia. Está formado por un amplificador operacional en configuración de seguidor de tensión y un divisor resistivo con un potenciómetro que permite calibrar el nivel de tensión para evitar valores negativos en la salida del circuito.
 
 %----------------------------------------------------------------------------------------
 \section{Requerimientos}
@@ -95,24 +171,24 @@ En esta sección se detallan los requerimientos del sistema que fueron planteado
 	\begin{itemize}
 	\item El hardware debe contar con una pantalla TFT táctil. [TPA-ERH-01-REQ001]
 	\item El hardware debe contar con un lector de tarjetas SD. [TPA-ERH-01-REQ002]
-	\item El hardware debe contar con un driver para un motor paso a paso Nema 17. [TPA-ERH-01-REQ003]
+	\item El hardware debe contar con un \textit{driver} para un motor paso a paso Nema 17. [TPA-ERH-01-REQ003]
 	\item El hardware debe contar con una entrada para un electrodo de pH. [TPA-ERH-01-REQ004]
-\end{itemize}
+	\end{itemize}
 	
 \item Funciones
 	\begin{itemize}
-	\item El usuario puede elegir mediante la pantalla táctil el volumen de corte de la titulación. [TPA-ERS-01-REQ001]
-	\item El usuario puede elegir mediante la pantalla táctil si utilizar o no el agitador. Cuando el proceso de titulación comienza, el agitador debe activarse si así lo indicó el usuario. [TPA-ERS-01-REQ002]
-	\item El usuario puede realizar mediante la pantalla táctil el proceso de calibración con cada uno de los tres buffers. [TPA-ERS-01-REQ003]
+	\item El usuario debe poder elegir mediante la pantalla táctil el volumen de corte de la titulación. [TPA-ERS-01-REQ001]
+	\item El usuario debe poder elegir mediante la pantalla táctil si utilizar o no el agitador. Cuando el proceso de titulación comienza, el agitador debe activarse si así lo indicó el usuario. [TPA-ERS-01-REQ002]
+	\item El usuario debe poder realizar mediante la pantalla táctil el proceso de calibración con cada uno de los tres buffers. [TPA-ERS-01-REQ003]
 	\item Los valores de potencial obtenidos en el proceso de la calibración se deben guardar en la memoria flash del ESP32. [TPA-ERS-01-REQ004]
 	\item El valor de pH se debe calcular de manera proporcional a la recta de ajuste de los valores de potencial obtenidos en la calibración. [TPA-ERS-01-REQ005]
-	\item El usuario puede dar inicio al proceso de titulación mediante la pantalla táctil. [TPA-ERS-01-REQ006]
+	\item El usuario debe poder dar inicio al proceso de titulación mediante la pantalla táctil. [TPA-ERS-01-REQ006]
 	\item Durante la titulación, la pantalla debe mostrar el valor actual leído en mV y en pH y una gráfica de pH en función del tiempo. [TPA-ERS-01-REQ007]
 	\item Cada valor de volumen añadido junto al valor de potencial asociado durante el proceso de titulación deben almacenarse en un archivo de texto en la tarjeta sd. No es necesario que esto se haga en tiempo real. [TPA-ERS-01-REQ008]
 	\item Cada valor de volumen añadido junto al valor de potencial asociado durante el proceso de titulación deben mostrarse en una página web almacenada en la memoria flash, una vez finalizada la titulación. [TPA-ERS-01-REQ009]
-	\item El usuario puede acceder a la página web mediante una conexión Wi-Fi. No es necesario que esto se haga en tiempo real. [TPA-ERS-01-REQ010]
+	\item El usuario debe poder acceder a la página web mediante una conexión Wi-Fi. No es necesario que esto se haga en tiempo real. [TPA-ERS-01-REQ010]
 	\item El sistema debe ser capaz de leer y mostrar el potencial entregado por un electrodo de pH, con una resolución de 1 mV para la lectura del potencial y de 0,01 pH para su conversión a pH. [TPA-ERS-01-REQ011]
-	\item El sistema deberá inyectar una cantidad de 0,1 mL esperar 5 segundos para realizar la medición de pH. La cantidad inyectada puede ser de 1 mL si el cambio de ph entre las últimas dos mediciones es menor a 0,2. [TPA-ERS-01-REQ012]
+	\item El sistema deberá inyectar una cantidad de 0,1 mL y luego esperar 5 segundos para realizar la medición de pH. La cantidad inyectada puede ser de 1 mL si el cambio de ph entre las últimas dos mediciones es menor a 0,2. [TPA-ERS-01-REQ012]
 	 \item El sistema debe dejar de agregar titulante cuando se alcanza la cantidad de volumen indicada por el usuario como volumen de corte. [TPA-ERS-01-REQ013]
 
 \end{itemize}
@@ -125,7 +201,7 @@ En esta sección se detallan los requerimientos del sistema que fueron planteado
 \item Restricciones de Diseño
 	\begin{itemize}
 	\item Se utiliza el módulo ESP32 como computadora principal. [TPA-ERS-01-REQ015]
-	\item Se utiliza la pantalla táctil MCU-FRIEND 2,4" como interfaz de usuario. [TPA-ERS-01-REQ016]
+	\item Se utiliza la pantalla táctil MCUFRIEND 2,4'' como interfaz de usuario. [TPA-ERS-01-REQ016]
 	\end{itemize}
 \end{itemize}	
 %----------------------------------------------------------------------------------------

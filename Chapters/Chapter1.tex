@@ -18,19 +18,19 @@
 %----------------------------------------------------------------------------------------
 
 %\section{Introducción}
-En este capítulo se presentan los conceptos necesarios para comprender el método de titulación y el funcionamiento de los tituladores automáticos, así como también se realiza una exploración de trabajos de I+D y productos comerciales similares al prototipo presentado. Por último se destaca el origen de la propuesta y los objetivos y alcances del trabajo realizado.
+En este capítulo se presentan los conceptos necesarios para comprender el método de titulación y el funcionamiento de los tituladores automáticos, así como también se realiza una exploración de trabajos de I+D y productos comerciales similares al prototipo presentado. Por último, se destaca el origen de la propuesta y los objetivos y alcances del trabajo realizado.
 
 %----------------------------------------------------------------------------------------
 \section{Concepto de titulación}
 
-La titulación es una técnica analítica que permite realizar la determinación cuantitativa de la concentración de una sustancia o grupo de sustancias químicas (analitos) en una muestra problema. Este método de análisis químico se basa en medir la cantidad de un reactivo de concentración conocida, denominado titulante, que es consumida por un analito durante una reacción química o electroquímica. En una titulación se determina el volumen o la masa de titulante necesaria para reaccionar completamente con el analito, y este dato permite calcular la cantidad del analito presente en una muestra. El punto de equivalencia de la reacción, conocido como punto final cuando es determinado de manera experimental, se puede determinar por el cambio de color en un indicador o por el cambio en una respuesta instrumental, como por ejemplo, el pH \citep{BOOK:1}.
+La titulación es una técnica analítica que permite realizar la determinación cuantitativa de la concentración de una sustancia o grupo de sustancias químicas (analitos) en una muestra problema. Este método de análisis químico se basa en medir la cantidad de un reactivo de concentración conocida, denominado titulante, que es consumida por un analito durante una reacción química o electroquímica. En una titulación se determina el volumen o la masa de titulante necesario para reaccionar completamente con el analito, y este dato permite calcular la cantidad del analito presente en una muestra. El punto final de una reacción se puede determinar por el cambio de color en un indicador o por el cambio en una respuesta instrumental como, por ejemplo, el pH \citep{BOOK:1}.
 
 El punto de equivalencia es el punto teórico que se alcanza cuando la cantidad de titulante añadido es químicamente equivalente a la cantidad de analito
-en la muestra y no puede determinarse de manera experimental. En cambio, se puede estimar su valor en base al punto final, que se da cuando se observa una variación física asociada con la condición de equivalencia \citep{BOOK:1}.
+en la muestra y no puede determinarse de manera experimental. En cambio, se puede estimar su valor en base al punto final, que se da cuando se observa una variación física asociada con la condición de equivalencia \citep{BOOK:1}. Existen diferentes tipos de titulaciones que implican diferentes métodos de análisis. En el caso de este trabajo, se utilizaron las titulaciones del tipo ácido-base, para las cuales se utilizan el método del cambio de color de un indicador y el del cambio de potencial de un electrodo.
 
-Existen diferentes tipos de titulaciones que implican diferentes métodos de análisis. Para el caso de este trabajo se utilizaron las titulaciones del tipo ácido-base, para las cuales se utilizan el método del cambio de color de un indicador y el del cambio de potencial de un electrodo.
+\subsection{Métodos de titulación}
 
-El cambio de color es la técnica que se utiliza actualmente de manera manual en el laboratorio  de la UTN FRSFco. La figura \ref{fig:titManualColor} describe el proceso en cual se adiciona de manera lenta el titulante en la solución a analizar y cuando se produce el cambio en el color del indicador se halla el punto final.
+El cambio de color es la técnica que se utiliza actualmente de manera manual en el laboratorio  de la UTN FRSFco. La figura \ref{fig:titManualColor} describe el proceso para realizar una titulación manual de un ácido con una base. Por un lado, se tiene una bureta con el titulante de concentración conocida, y por el otro, un recipiente con la solución acuosa a ser analizada, a la cual se le agrega un reactivo indicador. De manera lenta, se agrega el titulante a la solución problema hasta detectar el cambio de color producido por el indicador. Esto es lo que se conoce como punto final y el resultado es el volumen de titulante gastado, que le permite al analista químico calcular la concentración del analito de la solución problema.
 
 \begin{figure}[htbp]
 	\centering
@@ -39,16 +39,14 @@ El cambio de color es la técnica que se utiliza actualmente de manera manual en
 	\label{fig:titManualColor}
 \end{figure}
 
-
-
-El cambio en el potencial de un electrodo de pH es la técnica que se utilizó para este trabajo y se detalla en la  figura \ref{fig:titManualPot}. En la imagen se observa un proceso manual asistido por una computadora que registra los datos de la cantidad de gotas que añade el usuario y el valor de pH leído por el electrodo.
+El cambio en el potencial de un electrodo de pH es la técnica que utilizan los tituladores potenciométricos automáticos, y por lo tanto, se utilizó para este trabajo. En la figura \ref{fig:titManualPot} se observa un proceso manual que utiliza el método de cambio de potencial. En este caso, el usuario utiliza una computadora que registra los datos de la cantidad de gotas que añade y el valor de pH leído por el electrodo, para cada cantidad añadida de titulante. De esta forma, se grafica una curva de titulación que permite encontrar el valor del volumen gastado en el punto final.
 
 \footnotetext{Imagen tomada de \url{https://2.bp.blogspot.com/-a9RepHphLgc/WgOVnU_U_QI/AAAAAAAAAGM/ulzSDSrbOKYNvtwqNhe_D5TE6bzxiT9aACLcBGAs/s1600/acido-base.webp}}
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=.7\textwidth]{./Figures/titulacionPotManual.jpeg}
-	\caption{Titulación ácido-base manual mediante indicador de color\protect\footnotemark.}
+	\includegraphics[width=.6\textwidth]{./Figures/titulacionPotManual.jpeg}
+	\caption{Titulación ácido-base manual mediante electrodo de pH\protect\footnotemark.}
 	\label{fig:titManualPot}
 \end{figure}
 
@@ -56,21 +54,28 @@ El cambio en el potencial de un electrodo de pH es la técnica que se utilizó p
 
 \subsection{Curvas de titulación}
 
-Una curva de titulación es una gráfica de alguna variable asociada a la concentración en función del volumen de titulante agregado. Generalmente se dan dos tipos de curvas: la sigmoidea y la de segmento lineal \citep{BOOK:1}.
-Para el trabajo desarrollado se tuvo en cuenta la curva del tipo sigmoidea, como se muestra en la figura \ref{fig:sigmoidea}. En la misma se observa que el punto de equivalencia coincide con el punto de inflexión de la curva, característica que permite determinar de manera aproximada el punto final. 
+Una curva de titulación es una gráfica de alguna variable asociada a la concentración en función del volumen de titulante agregado. Generalmente, se dan dos tipos de curvas: la sigmoidea y la de segmento lineal \citep{BOOK:1}.
+Para el trabajo desarrollado se tuvo en cuenta la curva del tipo sigmoidea, como se muestra en la figura \ref{fig:sigmoidea}. La misma corresponde a una titulación de 50 mL de HCI 0,0500 M con NaOH 0,100 M, y el punto final coincide con el punto de inflexión de la curva, característica que permite determinar de manera aproximada el punto de equivalencia. 
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=.5\textwidth]{./Figures/curvaTitulacion1.png}
-	\caption{Curva de titulación del tipo sigmoidea\protect\footnotemark.}
+	\includegraphics[width=.7\textwidth]{./Figures/curvaTitulacion1.png}
+	\caption{Curva de titulación del tipo sigmoidea.}
 	\label{fig:sigmoidea}
 \end{figure}
 
-\footnotetext{Imagen tomada de \url{https://www.lifeder.com/punto-de-equivalencia/}}
+Generalmente, el analista químico recurre a las curvas de la primera y segunda derivada del pH respecto al volumen añadido para poder calcular de manera efectiva el punto final. En la figura \ref{fig:sigmoidea} se muestran las curvas de las derivadas correspondientes a la titulación de HCI con NaOH. El punto final coincide con un máximo en la curva de la primera derivada y con un pase por 0 en la curva de la segunda derivada.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=1.0\textwidth]{./Figures/derivada.png}
+	\caption{Primera y segunda derivada del pH respecto al volumen.}
+	\label{fig:derivada}
+\end{figure}
 
 \subsection{Potenciometría}
 
-La potenciometría se basa en la medición del potencial de celdas electroquímicas  con corriente despreciable. Para llevar a cabo se utilizan dos electrodos: un electrodo de referencia con potencial conocido e independiente de la solución analizada, y un electrodo indicador cuya tensión varía en función de la actividad del analito,  separados por un puente salino que previene que los componentes de la disolución de analito se mezclen con los componentes del electrodo de referencia, tal y como se muestra en la figura \ref{fig:potenciometria} \citep{BOOK:1}.
+La potenciometría se basa en la medición del potencial entre celdas electroquímicas. Para llevar a cabo este medición se utilizan dos electrodos: un electrodo de referencia con potencial conocido e independiente de la solución analizada, y un electrodo indicador cuya tensión varía en función de la actividad del analito,  separados por un puente salino que previene que los componentes de la disolución de analito se mezclen con los componentes del electrodo de referencia, tal y como se muestra en la figura \ref{fig:potenciometria} \citep{BOOK:1}.
 
 \begin{figure}[htbp]
 	\centering
@@ -85,7 +90,7 @@ La potenciometría se basa en la medición del potencial de celdas electroquími
 \label{tituladoresAutomaticos}
 
 Un titulador automático es un dispositivo que agrega titulante en la solución a analizar y registra alguna variable física por cada unidad de volumen o masa de titulante agregada. En base a esos datos, se puede elaborar la curva de titulación y calcular el volumen o masa en el punto final.
-Existen diferentes tipos de tituladores que se usan para diferentes análisis, como por ejemplo el titulador potenciométrico, el de conductividad, Karl Fischer, entre otros.
+Existen diferentes tipos de tituladores que se usan para diferentes análisis, como por ejemplo el titulador potenciométrico, el de conductividad o el Karl Fischer, entre otros.
 
 Un titulador potenciométrico automático hace uso de un electrodo para medir el potencial de la celda a la vez que inyecta el titulante mediante el uso de algún sistema de dosificación, y registra cada valor potencial en mV o en pH en función de la cantidad de volumen añadido. Además, estos dispositivos suelen incluir un agitador que permite acelerar el proceso de mezcla entre el titulante añadido y la solución, para que el cambio en el potencial se visualice de manera más rápida.
 En la figura \ref{fig:titThermo} se observa un ejemplo de un titulador comercial para titulaciones del tipo ácido-base.
@@ -104,7 +109,7 @@ En la figura \ref{fig:titThermo} se observa un ejemplo de un titulador comercial
 %----------------------------------------------------------------------------------------
 \section{Estado del arte}
 
-Existen gran variedad de tituladores potenciométricos automáticos en el mercado con diferentes características. La tabla \ref{tab:titComerciales} ilustra una comparativa entre algunos modelos de tituladores que disponen diferentes laboratorios de la región. El principal punto a tener en cuenta es la exactitud, que en los casos analizados se mide en un porcentaje de bureta que contiene el titulante. Por ejemplo, para una bureta de 20 mL que es la que incluyen estos tituladores, la exactitud sería de 0,02 mL para los modelos Kem AT710 y Hanna HI901C1-01, y de 0,04 mL para el modelo Mettler Toledo G20. Otra característica importante son las opciones que tiene el usuario de interactuar con el titulador, que incluyen un display LCD y botones o panel táctil, conexión para impresora y unidad de almacenamiento, y capacidad de agregar un teclado o pantalla externa.
+Existen gran variedad de tituladores potenciométricos automáticos en el mercado con diferentes características. La tabla \ref{tab:titComerciales} ilustra una comparativa entre algunos modelos de tituladores que disponen diferentes laboratorios de la región. El principal punto a tener en cuenta es la exactitud que, en los casos analizados, se mide en un porcentaje de la capacidad de la bureta que contiene el titulante. Por ejemplo, para una bureta de 20 mL, que es la que incluyen estos tituladores, la exactitud sería de 0,02 mL para los modelos Kem AT710 y Hanna HI901C1-01, y de 0,04 mL para el modelo Mettler Toledo G20. Otra característica importante son las opciones que tiene el usuario de interactuar con el titulador, que incluyen un display LCD y botones o panel táctil, conexión para impresora y unidad de almacenamiento, y capacidad de agregar un teclado o pantalla externa.
 
 
 \begin{table}[h]
@@ -129,12 +134,12 @@ Estos trabajos incluyen el manejo de una bomba peristáltica y de un potencióme
 
 %----------------------------------------------------------------------------------------
 \section{Motivación}
-El desarrollo de un titulador automático surgió de la iniciativa del grupo de I+D GISAI perteneciente a la UTN FRSFco con el fin de encarar un proyecto multidisciplinar en el que se involucren las cuatro carreras de ingeniería de la facultad. Luego de confirmar los integrantes del proyecto, se decidió en conjunto construir un titulador de bajo costo para el laboratorio de servicios de química, ya que los tituladores comerciales son económicamente inaccesibles para universidades y laboratorios en los que existe una frecuencia baja de muestras a analizar.
+El desarrollo de un titulador automático surgió de la iniciativa del grupo de I+D GISAI, perteneciente a la UTN FRSFco, con el fin de encarar un proyecto multidisciplinar en el que se involucren las cuatro carreras de ingeniería de la facultad. Luego de confirmar los integrantes del proyecto, se decidió en conjunto construir un titulador de bajo costo para el laboratorio de servicios de química, ya que los tituladores comerciales son económicamente inaccesibles para universidades y laboratorios en los que existe una frecuencia baja de muestras a analizar.
 Una vez planteado el proyecto, se dividieron los objetivos particulares de cada área disciplinar, los cuales se detallan a continuación:
 \begin{itemize}
 \item Ingeniería Química: encargada de establecer los requerimientos y de validar el prototipo.
 \item Ingeniería Electrónica: encargada de diseñar e implementar el sistema embebido que controle el proceso de titulación.
-\item Ingeniería Electromecánica: encargada de diseñar y desarrollar la bomba y otros componentes mecánicos, como ca carcasa.
+\item Ingeniería Electromecánica: encargada de diseñar y desarrollar la bomba y otros componentes mecánicos, como la carcasa.
 \item Ingeniería en Sistemas de Información: encargada de elaborar el software que procesará los datos entregados por el titulador y otros datos asociados a la muestra analizada y al cliente que lo solicita.
 \end{itemize}
 En esta memoria se describen las tareas realizadas dentro del área de Ingeniería Electrónica, cuyos objetivos y alcances se encuentran detallados en la sección \ref{objYalc}.
