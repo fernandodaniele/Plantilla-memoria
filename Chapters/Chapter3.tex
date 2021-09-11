@@ -40,57 +40,80 @@
 %----------------------------------------------------------------------------------------
 
 \textit{ NOTA: ESTE CAPÍTULO SE ENCUENTRA EN CONSTRUCCIÓN.}
+
+En este capítulo se detallan los componentes de software y hardware diseñados e implementados por el autor, su interrelación, y los criterios seguidos.
+
 %----------------------------------------------------------------------------------------
 %	SECTION 1
 %----------------------------------------------------------------------------------------
 \section{Arquitectura del sistema}
- 
-%La idea de esta sección es resaltar los problemas encontrados, los criterios utilizados y la justificación de las decisiones que se hayan tomado.
-%
-%Se puede agregar código o pseudocódigo dentro de un entorno lstlisting con el siguiente código:
-%
-%\begin{verbatim}
-%\begin{lstlisting}[caption= "un epígrafe descriptivo"]
-%	las líneas de código irían aquí...
-%\end{lstlisting}
-%\end{verbatim}
-%
-%A modo de ejemplo:
-%
-%\begin{lstlisting}[label=cod:vControl,caption=Pseudocódigo del lazo principal de control.]  % Start your code-block
-%
-%#define MAX_SENSOR_NUMBER 3
-%#define MAX_ALARM_NUMBER  6
-%#define MAX_ACTUATOR_NUMBER 6
-%
-%uint32_t sensorValue[MAX_SENSOR_NUMBER];		
-%FunctionalState alarmControl[MAX_ALARM_NUMBER];	//ENABLE or DISABLE
-%state_t alarmState[MAX_ALARM_NUMBER];						//ON or OFF
-%state_t actuatorState[MAX_ACTUATOR_NUMBER];			//ON or OFF
-%
-%void vControl() {
-%
-%	initGlobalVariables();
-%	
-%	period = 500 ms;
-%		
-%	while(1) {
-%
-%		ticks = xTaskGetTickCount();
-%		
-%		updateSensors();
-%		
-%		updateAlarms();
-%		
-%		controlActuators();
-%		
-%		vTaskDelayUntil(&ticks, period);
-%	}
-%}
-%\end{lstlisting}
+
+Para abordar el trabajo realizado, en esta sección se expone la arquitectura general del sistema embebido implementado, esquematizada en el diagrama de la figura \ref{fig:diagramaCompleto}, y luego, en las siguientes secciones, se detallan cada uno de los componentes de manera individual.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=1.0\textwidth]{./Figures/DiagramaBloquesCompleto.png}
+	\caption{Diagrama en bloques del trabajo realizado.}
+	\label{fig:diagramaCompleto}
+\end{figure}
+
+El componente principal del sistema es el ESP32, que tiene como función coordinar cada una de las partes intervinientes. A través de una comunicación del tipo UART, recibe las órdenes ingresadas a través de la pantalla táctil y  son procesadas por el ATmega328p, para realizar las configuraciones o funciones que solicite el usuario.
+
+Dentro de las configuraciones, está la posibilidad de modificar el volumen de corte y de habilitar, o no, el agitador. El volumen de corte es la cantidad máxima de titulante que se utiliza durante la titulación. Cuando se alcanza ese valor, el proceso se detiene automáticamente. En cuanto a la habilitación del agitador, permite elegir si el mismo se activa o no al inicial la titulación.
+
+Las funciones que ofrece el sistema son las de limpieza, calibración y titulación. El modo limpieza se utiliza para purgar la bomba previo al proceso de titulación y para eliminar los retos de titulante que quedan en las mangueras al finalizar el proceso. 
+
+La calibración permite ajustar el valor leído por el ADC, en el cual se encuentra conectado el módulo pH4502C. Para llevarla a cabo, se hace uso de tres líquidos patrones, denominados \textit{buffers}, de pH 4, 7 y 10, respectivamente. Se debe realizar la calibración de manera periódica, ya que las propiedades del electrodo varían con el tiempo.
+
+Una vez realizadas las configuraciones correspondientes, la limpieza y la calibración, es posible iniciar la titulación. Cuando esto sucede, el ESP activa  la bomba para que comience a inyectar el titulante en la muestra problema, y registra los valores de pH asociados, que obtiene desde el electrodo. En la pantalla se visualiza una curva del pH a lo largo del tiempo, y se ofrece la posibilidad de finalizar el proceso, mediante un botón, en el momento que el usuario lo desee. En caso contrario, el proceso finaliza al alcanzar el volumen de corte.
+
+Una vez finalizado el proceso, el ESP32 calcula la derivada primera para cada valor de volumen y pH asociados, y, en base a ello, encuentra el valor de volumen inyectado en el punto final. Tanto este valor, como todos los valores registrados, se almacenan en la memoria SD, a través de una comunicación SPI con el módulo correspondiente, y en la página web, que se encuentra embebida en la memoria del ESP32. A través de una conexión de área local se puede acceder a esta página desde otro dispositivo y visualizar los resultados.
+
+Para realizar las actividades mencionadas previamente, el ESP32 ejecuta tres tareas: la tarea encargada de la comunicación UART con el ATmega328p, que se aloja en el núcleo 0, y las tareas de medición del electrodo y de control de la bomba, que se alojan en el núcleo 1. Además, existe un controlador de eventos, que se ejecuta sobre el núcleo 0 cuando alguien accede a la página web.
+
 
 %----------------------------------------------------------------------------------------
-\section{Medición de pH y control de la bomba}
+\section{Medición del electrodo}
+
+La medición del electrodo es un módulo de software que tiene una tarea de FreeRTOS asociada. El objetivo de esta tarea es obtener el valor en mV que entrega el módulo pH-4502C y es ejecutada durante el proceso de calibración y el de titulación. En el código \ref{cod:tareaElectrodo} se muestra el pseudocódigo de la tarea de medición del electrodo. Al inicio de esta tarea se realiza la configuración del ADC utilizado, el cual se habilita con resolución 12 bits en el pin correspondiente al canal 6 del ADC número 1.
+
+La lectura del valor del ADC se acumula en la variable sumaAdc durante las N iteraciones del bucle for. Cada una de estas iteraciones se realiza en un intervalo de 10 mS, y, al finalizar el bucle for, el valor total se divide por la cantidad de muestras realizadas, lo que permite promediar el valor leído y así reducir el ruido presente en la conversión, tal y como sugiere la página oficial del ESP32 \citep{WEBSITE:2}. Cabe destacar que el acceso a la variable valorAdc está protegido por una sección crítica, ya que resto de las tareas también pueden acceder a la variable cuando precisan calcular el valor de pH.
+
+\begin{lstlisting}[label=cod:vControl,caption=Pseudocódigo de la tarea de medición de pH.]
+void tareaElectrodo (void *arg)
+{
+    //Configuracion de resolucion y pin del ADC
+    configuracionADC(12 bits, pin);
+    uint32_t sumaAdc = 0;
+
+    while(true)
+    {
+    for (int i=0; i< N_MUESTRAS; i++)
+    {
+        sumaAdc = sumaAdc + lecturaADC(pin);  
+        vTaskDelay(10 mS);
+    } 
+    inicioSeccionCritica(); 
+    valorAdc = sumaAdc / N_MUESTRAS;
+    finSeccionCritica();
+    sumaAdc = 0;
+    }
+}
+	\label{cod:tareaElectrodo}
+\end{lstlisting}
+
+%----------------------------------------------------------------------------------------
+\section{Control de la bomba}
+
+En la figura \ref{fig:flujoBomba} se muestra el diagrama de flujo de la tarea de control de la bomba.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=1.0\textwidth]{./Figures/motorBomba.png}
+	\caption{Diagrama de flujo de la tarea de control de la bomba.}
+	\label{fig:flujoBomba}
+\end{figure}
+
 
 %----------------------------------------------------------------------------------------
 \section{Interfaz de usuario}
