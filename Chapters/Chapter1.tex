@@ -18,7 +18,7 @@
 %----------------------------------------------------------------------------------------
 
 %\section{Introducción}
-En este capítulo se presentan los conceptos necesarios para comprender el método de titulación y el funcionamiento de los tituladores automáticos, así como también se realiza una exploración de trabajos de I+D y productos comerciales similares al prototipo presentado. Por último, se destaca el origen de la propuesta los objetivos y alcances del trabajo realizado.
+En este capítulo se presentan los conceptos necesarios para comprender el método de titulación y el funcionamiento de los tituladores automáticos, así como también se realiza una exploración de trabajos de I+D y productos comerciales similares al prototipo presentado. Por último, se destaca el origen de la propuesta, los objetivos y los alcances del trabajo realizado.
 
 %----------------------------------------------------------------------------------------
 \section{Concepto de titulación}
@@ -30,23 +30,23 @@ en la muestra y no puede determinarse de manera experimental. En cambio, se pued
 
 \subsection{Métodos de titulación}
 
-El cambio de color es la técnica que se utiliza actualmente de manera manual en el laboratorio  de la UTN FRSFco. La figura \ref{fig:titManualColor} describe el proceso para realizar una titulación manual de un ácido con una base. Por un lado, se tiene una bureta con el titulante de concentración conocida, y por el otro, un recipiente con la solución acuosa a ser analizada, a la cual se le agrega un reactivo indicador. De manera lenta, se agrega el titulante a la solución problema hasta detectar el cambio de color producido por el indicador. Esto es lo que se conoce como punto final y el resultado es el volumen de titulante gastado, que le permite al analista químico calcular la concentración del analito de la solución problema.
+El cambio de color es la técnica que se utiliza actualmente de manera manual en el laboratorio  de la UTN FRSFco, y se ilustra en la figura \ref{fig:titManualColor}. Por un lado, se tiene una bureta con el titulante de concentración conocida, y por el otro, un recipiente con la solución acuosa a ser analizada, a la cual se le agrega un reactivo indicador. De manera lenta, se agrega el titulante a la solución problema hasta detectar el cambio de color producido por el indicador. Esto es lo que se conoce como punto final y el resultado es el volumen de titulante gastado, que le permite al analista químico calcular la concentración del analito en la solución problema.
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=.8\textwidth]{./Figures/titulacionManual.jpg}
-	\caption{Titulación ácido-base manual mediante indicador de color\protect\footnotemark.}
+	\includegraphics[width=.9\textwidth]{./Figures/titulacionManual.jpg}
+	\caption{Titulación ácido-base mediante indicador de color\protect\footnotemark.}
 	\label{fig:titManualColor}
 \end{figure}
 
-El cambio en el potencial de un electrodo de pH es la técnica que utilizan los tituladores potenciométricos automáticos, y por lo tanto, se utilizó para este trabajo. En la figura \ref{fig:titManualPot} se observa un proceso manual que utiliza el método de cambio de potencial. En este caso, el usuario utiliza una computadora que registra los datos de la cantidad de gotas que añade y el valor de pH leído por el electrodo, para cada cantidad añadida de titulante. De esta forma, se grafica una curva de titulación que permite encontrar el valor del volumen gastado en el punto final.
+El cambio en el potencial de un electrodo de pH es la técnica que utilizan los tituladores potenciométricos automáticos, y, por lo tanto, se utilizó para este trabajo. En la figura \ref{fig:titManualPot} se observa un proceso manual que utiliza el método de cambio de potencial. En este caso, el usuario utiliza una computadora que registra los datos de la cantidad de gotas que añade y el valor de pH leído por el electrodo, para cada cantidad añadida de titulante. De esta forma, se grafica una curva de titulación que permite encontrar el valor del volumen gastado en el punto final.
 
 \footnotetext{Imagen tomada de \url{https://2.bp.blogspot.com/-a9RepHphLgc/WgOVnU_U_QI/AAAAAAAAAGM/ulzSDSrbOKYNvtwqNhe_D5TE6bzxiT9aACLcBGAs/s1600/acido-base.webp}}
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=.6\textwidth]{./Figures/titulacionPotManual.jpeg}
-	\caption{Titulación ácido-base manual mediante electrodo de pH\protect\footnotemark.}
+	\includegraphics[width=.7\textwidth]{./Figures/titulacionPotManual.jpeg}
+	\caption{Titulación ácido-base mediante electrodo de pH\protect\footnotemark.}
 	\label{fig:titManualPot}
 \end{figure}
 
@@ -64,7 +64,7 @@ Para el trabajo desarrollado se tuvo en cuenta la curva del tipo sigmoidea, como
 	\label{fig:sigmoidea}
 \end{figure}
 
-Generalmente, el analista químico recurre a las curvas de la primera y segunda derivada del pH respecto al volumen añadido para poder calcular de manera efectiva el punto final. En la figura \ref{fig:sigmoidea} se muestran las curvas de las derivadas correspondientes a la titulación de HCI con NaOH. El punto final coincide con un máximo en la curva de la primera derivada y con un pase por 0 en la curva de la segunda derivada.
+Generalmente, el analista químico recurre a las curvas de la primera y segunda derivada del pH respecto al volumen añadido para poder calcular de manera efectiva el punto final. En la figura \ref{fig:sigmoidea} se muestran las curvas de las derivadas correspondientes a la titulación de HCI con NaOH. Se puede observar que el punto final coincide con un máximo en la curva de la primera derivada y con un cruce por 0 en la curva de la segunda derivada.
 
 \begin{figure}[htbp]
 	\centering
@@ -75,7 +75,7 @@ Generalmente, el analista químico recurre a las curvas de la primera y segunda 
 
 \subsection{Potenciometría}
 
-La potenciometría se basa en la medición del potencial entre celdas electroquímicas. Para llevar a cabo este medición se utilizan dos electrodos: un electrodo de referencia con potencial conocido e independiente de la solución analizada, y un electrodo indicador cuya tensión varía en función de la actividad del analito,  separados por un puente salino que previene que los componentes de la disolución de analito se mezclen con los componentes del electrodo de referencia, tal y como se muestra en la figura \ref{fig:potenciometria} \citep{BOOK:1}.
+La potenciometría se basa en la medición del potencial entre celdas electroquímicas. Para llevar a cabo este medición se utilizan dos electrodos: un electrodo de referencia con potencial conocido e independiente de la solución analizada, y un electrodo indicador, cuya tensión varía en función de la actividad del analito. Ambos electrodos están separados por un puente salino que previene que los componentes de la disolución de analito se mezclen con los componentes del electrodo de referencia, tal y como se muestra en la figura \ref{fig:potenciometria} \citep{BOOK:1}.
 
 \begin{figure}[htbp]
 	\centering
@@ -92,8 +92,9 @@ La potenciometría se basa en la medición del potencial entre celdas electroqu�
 Un titulador automático es un dispositivo que agrega titulante en la solución a analizar y registra alguna variable física por cada unidad de volumen o masa de titulante agregada. En base a esos datos, se puede elaborar la curva de titulación y calcular el volumen o masa en el punto final.
 Existen diferentes tipos de tituladores que se usan para diferentes análisis, como por ejemplo el titulador potenciométrico, el de conductividad o el Karl Fischer, entre otros.
 
-Un titulador potenciométrico automático hace uso de un electrodo para medir el potencial de la celda a la vez que inyecta el titulante mediante el uso de algún sistema de dosificación, y registra cada valor potencial en mV o en pH en función de la cantidad de volumen añadido. Además, estos dispositivos suelen incluir un agitador que permite acelerar el proceso de mezcla entre el titulante añadido y la solución, para que el cambio en el potencial se visualice de manera más rápida.
-En la figura \ref{fig:titThermo} se observa un ejemplo de un titulador comercial para titulaciones del tipo ácido-base.
+Un titulador potenciométrico automático hace uso de un electrodo para medir el potencial de la celda a la vez que inyecta el titulante mediante el uso de algún sistema de dosificación, y registra cada valor potencial en mV o en pH en función de la cantidad de volumen añadido. Estos valores son visualizados en una pantalla y, generalmente, son almacenados en una memoria para poder transferir los datos a una computadora. 
+
+Este tipo de dispositivo suele incluir otros accesorios, como un agitador o un sensor de temperatura. El agitador puede estar formado por un motor con una hélice que permite acelerar el proceso de mezcla entre el titulante añadido y la solución, para que el cambio en el potencial se visualice de manera más rápida, mientras que el sensor de temperatura permite corregir el valor de pH cuando no se trabaja con muestras a temperatura ambiente. En la figura \ref{fig:titThermo} se observa un ejemplo de un titulador comercial para titulaciones del tipo ácido-base.
 
 \begin{figure}[htbp]
 	\centering
@@ -102,19 +103,17 @@ En la figura \ref{fig:titThermo} se observa un ejemplo de un titulador comercial
 	\label{fig:titThermo}
 \end{figure}
 
-\footnotetext{Imagen tomada de \url{https://www.equiposylaboratorio.com/portal/productos/titulador-automAtico-thermo-scientific-start9100-orion-star-t910}}
-
-
-
 %----------------------------------------------------------------------------------------
 \section{Estado del arte}
 
-Existen gran variedad de tituladores potenciométricos automáticos en el mercado con diferentes características. La tabla \ref{tab:titComerciales} ilustra una comparativa entre algunos modelos de tituladores que disponen diferentes laboratorios de la región. El principal punto a tener en cuenta es la exactitud que, en los casos analizados, se mide en un porcentaje de la capacidad de la bureta que contiene el titulante. Por ejemplo, para una bureta de 20 mL, que es la que incluyen estos tituladores, la exactitud sería de 0,02 mL para los modelos Kem AT710 y Hanna HI901C1-01, y de 0,04 mL para el modelo Mettler Toledo G20. Otra característica importante son las opciones que tiene el usuario de interactuar con el titulador, que incluyen un display LCD y botones o panel táctil, conexión para impresora y unidad de almacenamiento, y capacidad de agregar un teclado o pantalla externa.
+\footnotetext{Imagen tomada de \url{https://www.equiposylaboratorio.com/portal/productos/titulador-automAtico-thermo-scientific-start9100-orion-star-t910}}
+
+Existen gran variedad de tituladores potenciométricos automáticos en el mercado con diferentes características. La tabla \ref{tab:titComerciales} ilustra una comparativa entre algunos modelos de tituladores que disponen diferentes laboratorios de la región. El principal punto a tener en cuenta es la exactitud, que, en los casos analizados, se mide en un porcentaje de la capacidad de la bureta que contiene el titulante. Por ejemplo, para una bureta de 20 mL, que es la que incluyen estos tituladores, la exactitud sería de 0,02 mL para los modelos Kem AT710 y Hanna HI901C1-01, y de 0,04 mL para el modelo Mettler Toledo G20. Otra característica importante son las opciones que tiene el usuario de interactuar con el titulador, que incluyen un display LCD y botones o panel táctil, conexión para impresora y unidad de almacenamiento, y capacidad de agregar un teclado o pantalla externa.
 
 
 \begin{table}[h]
 	\centering
-	\caption[caption corto]{Comparativa de tituladores comerciales}
+	\caption[Comparativa de tituladores comerciales]{Comparativa de tituladores comerciales}
 	\begin{tabular}{l c c c }    
 		\toprule
 		\textbf{Marca y modelo} & \textbf{Exactitud}	&    \textbf{Display }&\textbf{Interfaces}  \\
@@ -160,13 +159,15 @@ El trabajo incluye:
 \item La visualización de los datos del ensayo en una página web, a través de una conexión Wi-Fi local.
 \end{itemize}
 
+\vspace{1.5cm}
+
 El trabajo no incluye:
 \begin{itemize}
 \item El manejo del dispositivo de manera remota.
 \item El diseño de la carcasa u otras partes mecánicas. 
 \end{itemize}
 
-En el diagrama de la figura \ref{fig:diagramaBloqueSimple} se muestra como interactúa el sistema desarrollado con las partes intervinientes. El sistema embebido es el encargado de controlar el volumen de titulante que la bomba agrega a la solución, y de leer el valor de pH obtenido por el electrodo. Una vez obtenidos todos los valores del proceso, los almacena en una tabla y calcula el volumen correspondiente al punto final. Ambos datos son enviados al software de la computadora.
+En el diagrama de la figura \ref{fig:diagramaBloqueSimple} se muestra como interactúa el sistema desarrollado con las partes intervinientes. El sistema embebido es el encargado de controlar el volumen de titulante que la bomba agrega a la solución, y de leer el valor de pH obtenido por el electrodo. Una vez obtenidos todos los valores del proceso, los almacena en una tabla y calcula el volumen correspondiente al punto final. Ambos datos son almacenados en una memoria SD y en un servidor web para su posterior procesamiento por el software de la computadora.
 
 \begin{figure}[htbp]
 	\centering
