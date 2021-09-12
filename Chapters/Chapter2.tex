@@ -68,7 +68,7 @@ Está formada por una manguera flexible situada dentro de la cubierta de la bomb
 
 \footnotetext{Imagen tomada de \url{https://www.researchgate.net/figure/Figura-3-Principio-de-funcionamiento-de-una-bomba-peristaltica-de-3-rodillos_fig2_275959587}}
 
-Para este trabajo se utilizó la bomba desarrollada por el área de electromecánica, que hace uso de un motor paso a paso bipolar Nema 17 marca Usongshine, como se aprecia en la figura \ref{fig:bombaAtras}. Este motor trabaja en un rango de voltaje entre 5 y 36 V, con corriente máxima de 1,7 A, y se desplaza de 1.8° por paso.
+Para este trabajo se utilizó la bomba desarrollada por el área de electromecánica, que hace uso de un motor paso a paso bipolar Nema 17 marca Usongshine, como se aprecia en la figura \ref{fig:bombaAtras}. Este motor trabaja en un rango de voltaje entre 5 y 36 V, con corriente máxima de 1,7 A, y se desplaza de 1.8° por paso, por lo que para producir un giro debe realizar 200 pasos.
 
 \begin{figure}[htbp]
 	\centering
@@ -156,7 +156,7 @@ Se decidió utilizar este microcontrolador como interfaz intermedia entre el ESP
 
 Previamente, en la sección \ref{sec:bomba}, se mencionó que la bomba utiliza un motor paso a paso. Para que el módulo ESP32 pueda controlarlo, es necesario utilizar un \textit{driver} que otorgue los niveles de tensión y corriente adecuados para su correcto funcionamiento.
 
-Para este trabajo se utilizó el módulo DRV8825 de la figura \ref{fig:DRV8825-Frente}, que permite el manejo de motores paso a paso de hasta 2,5 A y tiene la posibilidad de utilizar \textit{microsteping} 1/32.
+Para este trabajo se utilizó el módulo DRV8825 de la figura \ref{fig:DRV8825-Frente}, que permite el manejo de motores paso a paso de hasta 2,5 A. Para el control del motor dispone de dos pines. Uno de los pines permite definir el sentido de giro según reciba un 0 o un 1 lógico. El otro pin produce el desplazamiento de un paso cada vez que detecta un flanco de subida ascendente. De esta forma, mediante una onda cuadrada se puede producir el giro de manera continua a una velocidad directamente proporcional a la frecuencia de la onda.
 
 \begin{figure}[htbp]
 	\centering
@@ -165,7 +165,7 @@ Para este trabajo se utilizó el módulo DRV8825 de la figura \ref{fig:DRV8825-F
 	\label{fig:DRV8825-Frente}
 \end{figure}
 
-La técnica de \textit{microsteping} permite multiplicar la cantidad de pasos que puede dar un motor para realizar una vuelta. De esta forma se puede aumentar la resolución de giro, es decir, disminuir el ángulo de paso del motor, lo que se traduce a una menor cantidad de volumen inyectada por cada paso.
+Además, el DVR8825 tiene la posibilidad de utilizar la técnica de \textit{microsteping} hasta una relación de 1/32, lo que permite multiplicar la cantidad de pasos que puede dar el motor para completar una vuelta. De esta manera, se puede aumentar la resolución de giro, es decir, disminuir el ángulo de paso del motor, lo que se traduce a una menor cantidad de volumen inyectada por cada paso.
 
 \subsection{Módulo de adaptación para electrodo}
 

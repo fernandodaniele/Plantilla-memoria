@@ -79,7 +79,7 @@ La medición del electrodo es un módulo de software que tiene una tarea de Free
 
 La lectura del valor del ADC se acumula en la variable sumaAdc durante las N iteraciones del bucle for. Cada una de estas iteraciones se realiza en un intervalo de 10 mS, y, al finalizar el bucle for, el valor total se divide por la cantidad de muestras realizadas, lo que permite promediar el valor leído y así reducir el ruido presente en la conversión, tal y como sugiere la página oficial del ESP32 \citep{WEBSITE:2}. Cabe destacar que el acceso a la variable valorAdc está protegido por una sección crítica, ya que resto de las tareas también pueden acceder a la variable cuando precisan calcular el valor de pH.
 
-\begin{lstlisting}[label=cod:vControl,caption=Pseudocódigo de la tarea de medición de pH.]
+\begin{lstlisting}[label=cod:tareaElectrodo,caption=Pseudocódigo de la tarea de medición de pH.]
 void tareaElectrodo (void *arg)
 {
     //Configuracion de resolucion y pin del ADC
@@ -99,13 +99,18 @@ void tareaElectrodo (void *arg)
     sumaAdc = 0;
     }
 }
-	\label{cod:tareaElectrodo}
 \end{lstlisting}
 
 %----------------------------------------------------------------------------------------
 \section{Control de la bomba}
 
-En la figura \ref{fig:flujoBomba} se muestra el diagrama de flujo de la tarea de control de la bomba.
+El control de la bomba se realiza a través del \textit{driver} DVR8825, que maneja al motor paso a paso, y, mediante hardware, fue configurado con el \textit{microsteping} en 1/32. Esto significa que el motor debe realizar 6400 micropasos para producir un giro completo. Los pines de dirección y de paso están conectados a dos pines del ESP32. El pin de dirección fue configurado mediante software para producir el sentido de giro que permite desplazar el titulante desde su recipiente hasta el recipiente de la muestra. En cuanto al pin de paso, este es controlado por PWM, que genera una onda cuadrada de 10 KHz. Esto se traduce a una velocidad de 93,74 rpm en el eje del motor.
+
+Las configuraciones de software mencionadas anteriormente se realizan al inicio la tarea de control de la bomba, en el bloque correspondiente a configuración de PWM del diagrama que muestra la figura \ref{fig:flujoBomba}.
+
+Una vez realizadas las configuraciones, la tarea de control de la bomba tiene la posibilidad de ejecutar dos funciones según lo que decida el usuario a través de la pantalla táctil. Una de las opciones el el proceso de limpieza, en el cual simplemente se activa la bomba, es decir, se habilita el PWM que produce la onda cuadrada que llega al pin de paso del DVR8825 y genera el giro del motor. Este proceso se ejecuta hasta que el usuario decida detenerlo.
+
+La otra función corresponde al proceso de titulación. El requerimiento TPA-ERS-01-REQ012 establece que es necesario inyectar 0,1 mL y luego realizar una espera de 5 segundos antes de realizar la medición de pH. Está cantidad de volumen se logran cuando el motor produce 11500 micropasos, lo que equivale a que el PWM esté activado durante 1150 ms, valor definido mediante la etiqueta T-CORTO. Además, el requerimiento contempla que, para cuando la variación de pH entre dos mediciones  es menor a 0,2, se puede inyectar 1 mL en lugar de 0,1 mL, por lo cual se define la etiqueta T-LARGO en 11500 ms. Esto es útil para agilizar el proceso, especialmente al inicio de la titulación, donde el pH varía de manera lenta a medida que se agrega volumen, como se mostró anteriormente en la figura \ref{fig:sigmoidea}. Las pruebas que permitieron llegar a estos valores son mencionadas en el capítulo \ref{Chapter4}.
 
 \begin{figure}[htbp]
 	\centering
@@ -114,9 +119,75 @@ En la figura \ref{fig:flujoBomba} se muestra el diagrama de flujo de la tarea de
 	\label{fig:flujoBomba}
 \end{figure}
 
+Ya definidas las configuraciones y los tiempos para cada cantidad del volumen, el proceso de titulación inicia con la activación del PWM que produce el giro de la bomba hasta alcanzar la cantidad de 1 mL de titulante inyectado. Llegado a este punto, se produce una espera de 5 segundos y luego, el valor leído por la tarea del electrodo se almacena en un arreglo, al igual que la cantidad de volumen acumulado. El proceso se repite hasta que la diferencia entre las dos ultimas mediciones del electrodo supere un umbral, equivalente a aproximadamente 0,2 pH. A partir de este momento, se modifica la cantidad de volumen inyectado a 0,1 mL, pero el resto del procedimiento es el mismo. Una vez alcanzado el volumen de corte, o si el usuario presiona el boton de finalizar, la bomba de detiene y se procede a una función que calcula el valor de pH para cada valor almacenado en el arreglo de mediciones del electrodo. Luego, se calcula el valor de la primera derivada del pH respecto al volumen para cada uno de los valores del arreglo y se determina el volumen en el punto final en base al valor máximo de la primera derivada. Todos los valores son almacenados en la memoria SD y en la página web para que el usuario pueda tener acceso, el el valor de volumen en el punto final es mostrado en la pantalla.
+
 
 %----------------------------------------------------------------------------------------
 \section{Interfaz de usuario}
+
+La interfaz de usuario permite el acceso a todas las configuraciones y funciones que presenta el titulador. Está implementada a través de una pantalla táctil que permite navegar por un menú de diferentes pantallas, que fueron implementadas mediante la máquina de estados de la figura \ref{fig:MEFmenu}.
+
+La máquina de estados se ejecuta en el ATMega328p y cada estado tiene una pantalla gráfica asociada con botones táctiles que permiten navegar entre las diferentes opciones. Por ejemplo, desde el menú inicial se puede acceder al menú de titulación a través del botón TITULAR.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=1.0\textwidth]{./Figures/MEFmenu.png}
+	\caption{Máquina de estados del menú de usuario.}
+	\label{fig:MEFmenu}
+\end{figure}
+
+A continuación se listan las características de cada uno de los estados:
+
+\begin{itemize}
+\item Menú inicial: es el estado en el cual se ingresa cuando se inicia el programa. Desde aquí se puede acceder a la calibración, a la titulación, al menú de ajustes y al menú de conexión.
+\item Menú elegir \textit{buffer}: se utiliza para elegir el \textit{buffer} (patrón) con el cual se desea calibrar. Para completar el proceso de calibración de manera correcta, se debe ingresar en cada uno de los tres \textit{buffers}. Al presionar REGRESAR se envía por UART que el proceso de calibración finalizó para que el ESP32 actualice la función correspondiente al calculo del valor de pH.
+\item Menú calibrar A: es el estado en el cual se calibra usando el \textit{buffer} de pH 4. En este estado el ATmega328p se comunica con el ESP32 para solicitarle el valor actual de pH. Este valor sirve como referencia para que el usuario presione GUARDAR una vez que la lectura sea estable. Al presionar GUARDAR, se envía la confirmación al ESP32 para que actualice el valor correspondiente al \textit{buffer} de pH 4, y se regresa al menú de elegir \textit{buffer}. En caso de presionar regresar, vuelve al menú pero sin enviar la confirmación al ESP32.
+\item Menú calibrar B: es el estado en el cual se calibra usando el \textit{buffer} de pH 7, y sigue el mismo procedimiento que el menú calibrar A.
+\item Menú calibrar C: es el estado en el cual se calibra usando el \textit{buffer} de pH 10, y sigue el mismo procedimiento que el menú calibrar A.
+\item Menú titulación: es el estado en el cual se realiza el proceso de titulación, por ende, se envía un comando al ESP32 para que se ejecute la función de titulación dentro de la tarea de la bomba.
+\item Menú ajustes: es el estado que permite acceder a varias configuraciones.
+\item Menú volumen: es el estado que permite seleccionar el volumen de corte. Cuando se ingresa a este, se envía un comando al ESP32 para consultar el volumen de corte actual y mostrarlo en pantalla. Mediante un botón + y otro botón - se puede variar de a 1 mL este valor. Luego al presionar GUARDAR se envía el nuevo valor al ESP32, mientras que si se presionar REGRESAR vuelve al menú anterior sin hacer cambios.
+\item Menú limpieza: es el estado que permite purgar o limpiar las mangueras de la bomba.  Aquí se envía un comando al ESP32 para que ejecute la función de limpieza dentro de la tarea de la bomba.
+\item Menú agitador: es el estado que permite habilitar o deshabilitar el uso del agitador. Tiene los botones ON y OFF que enviarán al ESP32 el comando correspondiente para activar o desactivar el agitador respectivamente.
+\item Menú conexión: es el estado que permitirá acceder a configuraciones de la conexión Wi-Fi. Actualmente muestra la pantalla correspondiente pero no ejecuta ninguna acción.
+\end{itemize}
+
+Como se mencionó anteriormente, la máquina de estados funciona dentro del ATmega328p y en algunos estados se produce una comunicación del tipo UART con el ESP32 para el intercambio de la información necesaria. Esta comunicación se realiza mediante comandos que representan determinadas acciones, tal y como muestra la tabla
+
+
+\begin{table}[h]
+	\centering
+	\caption[Comandos UART]{Comandos utilizados en la comunicación UART entre el ESP32 y el ATmega328p.}
+	\begin{tabular}{l c c c }    
+		\toprule
+		\textbf{Comando} & \textbf{Valor asociado}	&    \textbf{Acción } \\
+		\midrule
+		A	&  &  		 \\
+		B	&  &  		 \\		
+		C	&  &  		 \\	
+		D	&  &  		 \\	
+		E	&  &  		 \\	
+		F	&  &  		 \\		
+		G	&  &  		 \\	
+		H	&  &  		 \\	
+		I	&  &  		 \\	
+		J	&  &  		 \\		
+		K	&  &  		 \\	
+		L	&  &  		 \\	
+		M	&  &  		 \\	
+		N	&  &  		 \\		
+		O	&  &  		 \\	
+		P	&  &  		 \\	
+		Q	&  &  		 \\	
+		\bottomrule
+		\hline
+	\end{tabular}
+	\label{tab:titComerciales}
+\end{table}
+
+
+%----------------------------------------------------------------------------------------
+\section{Proceso de calibración}
 
 %----------------------------------------------------------------------------------------
 \section{Almacenamiento de datos}
