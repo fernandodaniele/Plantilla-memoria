@@ -260,5 +260,47 @@ paginaHandler() //evento que se ejecuta cuando alguien accede a la pagina
 %----------------------------------------------------------------------------------------
 \section{Esquemáticos y PCB}
 
+El diseño de los esquemáticos y del circuito impreso fueron realizados mediante la herramienta Kicad. En la figura \ref{fig:esquematicoESP} se observan la fuente de alimentación y las conexiones asociadas al ESP32. La fuente de alimentación consta de un regulador de tensión de 5 V, y su entrada proviene de una fuente externa de 12 V de corriente continua.
 
-\textit{ NOTA: ESTA SECCIÓN SE ENCUENTRA EN CONSTRUCCIÓN.}
+El ESP32 se conecta al módulo pH4502C mediante divisores resistivos para adaptar tensiones. Utiliza dos pines GPIO para la conexión al módulo DVR8825, un pin GPIO para la conexión al driver del agitador, cuatro pines asociados a la conexión para la comunicación SPI con el módulo lector de tarjetas micro SD, y dos pines para la comunicación UART con el ATmega328p. Además, los pines sin usado están conectados a tiras de pines para aplicaciones futuras.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=1.0\textwidth]{./Figures/esquematicoESP.png}
+	\caption{Diseño esquemático de las conexiones del ESP32.}
+	\label{fig:esquematicoESP}
+\end{figure}
+
+La figura \ref{fig:esquematicoAtmega} muestra las conexiones del ATmega328p con los pines de control y datos de la pantalla táctil, asi como también los componentes mínimos necesarios para el funcionamiento del microcontrolador.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.6\textwidth]{./Figures/esquematicoAtmega.png}
+	\caption{Diseño esquemático de las conexiones del ATmega328p.}
+	\label{fig:esquematicoAtmega}
+\end{figure}
+
+El \textit{driver} DVR8825 tiene conectado un \textit{dip switch} que permite establecer por hardware el valor de configuración de \textit{microsteping}. Además, tiene el conector para los cables de las bobinas del motor. El \textit{driver} del agitador está formado por un transistor BJT en configuración común. Estos circuitos están representados en la figura \ref{fig:esquematicoMotores}.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=1.0\textwidth]{./Figures/esquematicoMotores.png}
+	\caption{Diseño esquemático de los drivers de la bomba y del agitador.}
+	\label{fig:esquematicoMotores}
+\end{figure}
+
+El circuito impreso es una placa 75 x 150 mm de dimensiones, diseñada en simple faz, y tiene como función la conexión de todos los módulos utilizados. En la figura \ref{fig:pcb} se muestra el diseño del PCB, mientras que en la figura \ref{fig:pcb3D} se observa el modelo 3D.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=1.0\textwidth]{./Figures/pcb.png}
+	\caption{Diseño del PCB.}
+	\label{fig:pcb}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=1.0\textwidth]{./Figures/pcb3D.png}
+	\caption{Modelo 3D del PCB.}
+	\label{fig:pcb3D}
+\end{figure}
