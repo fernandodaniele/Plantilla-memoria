@@ -16,7 +16,16 @@ En este capítulo se muestran los principales ensayos realizados y sus resultado
 
 \subsection{Calibración del electrodo}
 
-Para la validación del proceso de calibración del electrodo se utilizó el banco de pruebas que muestra la figura         , y se procedió a realizar el proceso de calibración. La tabla \ref{tab:ensayoCalibracion} muestra las mediciones correspondientes a la diferencia de potencial entregada por módulo pH4502C y al valor leído por el ADC para cada unos de los valores de los \textit{buffers}, en un ambiente con temperatura de 25 °C.
+Para la validación del proceso de calibración del electrodo se utilizó el banco de pruebas que muestra la figura \ref{fig:bancoPruebasCalibracion}, y se procedió a realizar el proceso de calibración.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./Figures/bancoPruebasCalibracion.png}
+	\caption{Banco de pruebas para la calibración del electrodo.}
+	\label{fig:bancoPruebasCalibracion}
+\end{figure}
+
+La tabla \ref{tab:ensayoCalibracion} muestra las mediciones correspondientes a la diferencia de potencial entregada por módulo pH4502C y al valor leído por el ADC para cada unos de los valores de los \textit{buffers}, en un ambiente con temperatura de 25 °C.
 
 \begin{table}[h]
 	\centering
@@ -25,9 +34,9 @@ Para la validación del proceso de calibración del electrodo se utilizó el ban
 		\toprule
 		\textbf{\textit{Buffer} [pH]} & \textbf{Salida pH4602C [V] }	&    \textbf{Lectura ADC}  \\
 		\midrule
-		4 	& 2,635 \% & 3050 \\		
-		7	& 2,172 \% & 2455 \\
-		10	& 1,877 \% & 2120 \\
+		4 	& 2,635 & 3050 \\		
+		7	& 2,172 & 2455 \\
+		10	& 1,877 & 2120 \\
 		\bottomrule
 		\hline
 	\end{tabular}
@@ -47,8 +56,52 @@ Luego de repetir el ensayo, se obtuvo que el error en la medición del potencial
 
 \subsection{Calibración del volumen inyectado por la bomba}
 
-Banco de prueba y resultados
+En el diseño del prototipo, el control de bomba se realiza utilizando un esquema de lazo abierto, es decir que, cuando se inyecta líquido, el microcontrolador  no realiza una medición del caudal o del volumen que fue desplazado. A raíz de esto, surge la necesidad de establecer una relación entre la cantidad de pasos que realiza el motor y la cantidad de volumen que inyecta la bomba, para así poder tener una unidad de medida y verificar si cumple con los requerimientos establecidos. Esta relación es difícil de obtener de manera teórica mediante el uso de modelos, por lo que se decidió realizar una serie de dosificaciones de un líquido de densidad conocida, y pesar la cantidad dosificada para determinar el volumen. En banco de pruebas utilizado para realizar este ensayo se muestra en la figura \ref{fig:bancoPruebasBomba}. En este proceso el fluido a dosificar fue agua de red domiciliaria, con una densidad estimada de 1 g/mL y se utilizó una balanza de dos decimales con un error de ±0,01 g, recogiendo el fluido en un vaso de precipitado previamente tarado.
 
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./Figures/bancoPruebasBomba.png}
+	\caption{Banco de pruebas para la calibración de la bomba.}
+	\label{fig:bancoPruebasBomba}
+\end{figure}
+
+Se realizaron 10 dosificaciones, cada una de las cuales implicó una cantidad de 2500 pasos para el motor, a una velocidad constante de 93,75 rpm. Se registró el peso y se taró nuevamente la balanza para todas las dosificaciones. Esta relación entre el número de pasos y las mediciones de masa se muestra en la tabla \ref{tab:ensayoBomba}, y la serie de mediciones arroja un peso medio de 0,70 g con un desvío de ± 0,01 g.
+
+\begin{table}[h]
+	\centering
+	\caption[Dosificaciones]{Dosificaciones para el cálculo de volumen por paso.}
+	\begin{tabular}{l c }    
+		\toprule
+		\textbf{Número de dosificación} & \textbf{Peso [g] } \\
+		\midrule
+		1 	& 0,69 \\	
+		2	& 0,70 \\
+		3	& 0,69 \\
+		4	& 0,69 \\
+		5	& 0,71 \\
+		6	& 0,70 \\
+		7	& 0,69 \\
+		8	& 0,69 \\
+		9	& 0,70 \\
+		10	& 0,69 \\
+		\bottomrule
+		\hline
+	\end{tabular}
+	\label{tab:ensayoBomba}
+\end{table}
 
 \section{Validación y verificación}
 \label{sec:validacionVerificacion}
+
+Para la validación del prototipo se desarrolló un caso de uso que incluyó los siguientes pasos:
+\begin{itemize}
+	\item Calibración del electrodo con los 3 \textit{buffers}.
+	\item Configuración del volumen de corte.
+	\item Proceso de limpieza.
+	\item Titulación de 50 mL de HCI 0,0500 M con NaOH 0,100 M.
+	\item Visualización de resultados en memoria micro SD y página web.
+\end{itemize}
+
+
+
+

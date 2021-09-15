@@ -11,7 +11,7 @@ En este capítulo se  realiza una revisión detallada de los dispositivos y tecn
 \section{Electrodos de pH}
 \label{sec:electrodoPH}
 
-Un electrodo muy usado hoy en día, es el electrodo combinado que está formado por dos electrodos dentro del mismo encapsulado. En la figura \ref{fig:electrodoCombinado} se observa un electrodo combinado que está formado por un electrodo de referencia, que consiste en un alambre clorurado de plata en una solución de KCl saturada, y un electrodo indicador, formado por el alambre clorurado de plata más una membrana de vidrio sensible al pH.
+Un electrodo muy usado hoy en día es el electrodo combinado, que está formado por dos electrodos dentro del mismo encapsulado. En la figura \ref{fig:electrodoCombinado} se observa un electrodo combinado que está formado por un electrodo de referencia, que consiste en un alambre clorurado de plata en una solución de KCl saturada, y un electrodo indicador, formado por el alambre clorurado de plata más una membrana de vidrio sensible al pH.
 
 \begin{figure}[htbp]
 	\centering
@@ -40,7 +40,7 @@ En este trabajo se utilizó el electrodo comercial marca HANNA HI-1230B de la fi
 pH = -0,0174 E + 7,01
 \end{equation}
 
-donde E es el potencial entregado por el electrodo y pH es el valor correspondiente de pH de la muestra a 25 °C. Para una muestra con ph 0 la salida del electrodo es de 402,8 mV y para una muestra de ph 14 el potencial es de -401,7 mV.
+donde E es el potencial entregado por el electrodo y pH es el valor correspondiente de pH de la muestra a 25 °C. Para una muestra con pH 0 la salida del electrodo es de 402,8 mV y para una muestra de ph 14 el potencial es de -401,7 mV.
 
 \begin{figure}[htbp]
 	\centering
@@ -87,9 +87,9 @@ La carcasa, el rotor y la cubierta exterior están impresas con ácido poliláct
 \end{figure}
 
 %----------------------------------------------------------------------------------------
-\section{Otras tecnologías utilizadas}
+\section{Módulos de hardware}
 
-Este trabajo se enfocó en el diseño de un prototipo de titulador, con el foco puesto en el software más que en el hardware. Es por eso que se buscaron alternativas del tipo ''módulo'' para los diferentes componentes, de tal forma que permita una rápida conexión del hardware y delegar la mayor parte del tiempo al desarrollo del firmware. En cada una de las siguientes secciones se describen los módulos utilizados.
+Dado que el alcance del trabajo no incluyó el diseño de un hardware \textit{ad hoc}, se buscaron distintos módulos que satisfagan las necesidades y simplifiquen la tarea de armar el prototipo. Esto permitió también dedicarle más tiempo al desarrollo de firmware. En cada una de las siguientes secciones se describen los módulos utilizados.
 
 \subsection{Microcontrolador ESP32}
 
@@ -115,7 +115,7 @@ Las principales características de esta placa de desarrollo que se tuvieron en 
 		\item PWM
 	\end{itemize}
 
-Para el desarrollo del software se utilizó el framework ESP-IDF de Espressif Systems, que ofrece una API para trabajar con sistemas operativos de tiempo real. La API utiliza una versión de FreeRTOS adaptada al doble núcleo del procesador, 	que permite decidir en que núcleo se ejecuta cada tarea, así como también ofrece funciones dedicadas al resto de los periféricos mencionados anteriormente.
+Para el desarrollo del \textit{firmware} se utilizó el \textit{framework} ESP-IDF de Espressif Systems, que ofrece una API para trabajar con sistemas operativos de tiempo real. La API utiliza una versión de FreeRTOS adaptada al doble núcleo del procesador, 	que permite decidir en que núcleo se ejecuta cada tarea, así como también ofrece funciones dedicadas al resto de los periféricos mencionados anteriormente.
 
 \vspace{1.5cm}
 
@@ -134,7 +134,7 @@ Entre las opciones disponibles en el mercado, se eligió módulo MCUFRIEND de la
 
 \subsection{Microcontrolador ATmega328p}
 
-Para el control de la pantalla táctil se optó por usar un microcontrolador ATmega328p, como el de la figura \ref{fig:ATmega328p}. Se trata de un microcontrolador de 8 bits, que trabaja a una frecuencia de hasta 20 MHz, con 23 pines de entrada/salida y un puerto para la comunicación UART, además de otras características que no son relevantes para este trabajo.
+Para el control de la pantalla táctil se optó por usar un microcontrolador ATmega328p, como el de la figura \ref{fig:ATmega328p}. Se trata de un microcontrolador de 8 bits, que trabaja a una frecuencia de hasta 20 MHz, con 23 pines de entrada/salida y un puerto para la comunicación UART, entre otros periféricos.
 
 \begin{figure}[htbp]
 	\centering
@@ -169,7 +169,7 @@ Además, el DVR8825 tiene la posibilidad de utilizar la técnica de \textit{micr
 
 \subsection{Módulo de adaptación para electrodo}
 
-En la sección \ref{sec:electrodoPH} se mencionó que el electrodo entrega un potencial que depende del pH de la muestra y se ubica entre -401,7 y 402,8 mV. Para poder procesar estos valores con el ADC del ESP32, cuyo rango de entrada es de 0 a 3500 mV, es necesario amplificar la señal para amplificar y adaptar impedancias. Por ello, se utilizó el módulo pH-4502C de la figura \ref{fig:pH-4502C}.
+En la sección \ref{sec:electrodoPH} se mencionó que el electrodo entrega un potencial que depende del pH de la muestra y se ubica entre -401,7 y 402,8 mV. Para poder procesar estos valores con el ADC del ESP32, cuyo rango de entrada es de 0 a 3500 mV, es necesario amplificar la señal, adaptar niveles de tensión para que estén dentro de un rango positivo, y adaptar impedancias. Por ello, se utilizó el módulo pH-4502C de la figura \ref{fig:pH-4502C}.
 
 \begin{figure}[htbp]
 	\centering
@@ -178,7 +178,27 @@ En la sección \ref{sec:electrodoPH} se mencionó que el electrodo entrega un po
 	\label{fig:pH-4502C}
 \end{figure}
 
-Este módulo está formado por dos etapas. En primer lugar, posee una etapa de amplificación de la señal, la cual utiliza un amplificador operacional con una configuración del tipo no inversor y con una ganancia de 2. En segundo lugar, está la etapa que permite modificar la tensión de referencia, que está formada por un amplificador operacional en configuración de seguidor de tensión y un divisor resistivo con un potenciómetro. Este último permite calibrar el nivel de tensión para evitar valores negativos en la salida del circuito.
+Este módulo está formado por dos etapas.  En primer lugar, está la etapa que permite modificar la tensión de referencia, que está formada por un amplificador operacional en configuración de seguidor de tensión y un divisor resistivo con un potenciómetro, como se muestra en la figura \ref{fig:etReferencia}.
+
+El potenciómetro RV1 permite modificar el nivel de tensión que se tiene en la entrada del electrodo de referencia. De esta forma, se eleva el piso de tensión para evitar que la diferencia de potencial del electrodo indicador respecto al electrodo de referencia sea negativa.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=.8\textwidth]{./Figures/estapaReferencia.png}
+	\caption{Etapa de referencia.}
+	\label{fig:etReferencia}
+\end{figure}
+
+En segundo lugar, el módulo posee una etapa de amplificación la señal, la cual utiliza un amplificador operacional con una configuración del tipo no inversor y con una ganancia de 2, como muestra la figura \ref{fig:etapaAmpli}.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=.7\textwidth]{./Figures/etapaAmpli.png}
+	\caption{Etapa de amplificación.}
+	\label{fig:etapaAmpli}
+\end{figure}
+
+\vspace{1,5 cm}
 
 %----------------------------------------------------------------------------------------
 \section{Requerimientos}
