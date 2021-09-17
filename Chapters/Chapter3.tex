@@ -117,7 +117,7 @@ pH = m * valorAdc + b
 %----------------------------------------------------------------------------------------
 \section{Control de la bomba}
 
-El control de la bomba se realiza a través del \textit{driver} DVR8825, que maneja al motor paso a paso y, mediante hardware, fue configurado con el \textit{microsteping} en 1/32. Esto significa que el motor debe realizar 6400 micropasos para producir un giro completo. Los pines de dirección y de paso están conectados a dos pines del ESP32. El pin de dirección fue configurado mediante software para producir el sentido de giro que permite desplazar el titulante desde su recipiente hasta el recipiente de la muestra. En cuanto al pin de paso, este es controlado por PWM, que genera una onda cuadrada de 10 KHz. Esto se traduce a una velocidad de 93,74 rpm en el eje del motor.
+El control de la bomba se realiza a través del \textit{driver} DVR8825, que maneja al motor paso a paso y, mediante hardware, fue configurado con el \textit{microsteping} en 1/32. Esto significa que el motor debe realizar 6400 micropasos para producir un giro completo. Los pines de dirección y de paso están conectados a dos pines del ESP32. El pin de dirección fue configurado mediante software para producir el sentido de giro que permite desplazar el titulante desde su recipiente hasta el recipiente de la muestra. En cuanto al pin de paso, este es controlado por PWM, que genera una onda cuadrada de 10 KHz. Esto se traduce a una velocidad de 93,75 rpm en el eje del motor.
 
 Las configuraciones de software mencionadas anteriormente se realizan al inicio la tarea de control de la bomba, en el bloque correspondiente a configuración de PWM del diagrama que muestra la figura \ref{fig:flujoBomba}.
 
