@@ -45,7 +45,7 @@ La tabla \ref{tab:ensayoCalibracion} muestra las mediciones correspondientes a c
 
 La diferencia de potencial entregada por módulo pH4502C fue medida por un voltímetro y se representa en la segunda columna, mientras que el valor leído por el ADC se visualiza en la computadora a través de un monitor serial. Este valor es un número directamente proporcional a la tensión, con un valor de 0 para 0 V y un valor de 4095 para 3,5 V.
 
-A partir de los datos obtenidos se puede graficar la recta de ajuste que relaciona el valor de pH con el valor de medido por el ADC, como se muestra en la figura \ref{fig:rectaADC}. Los valores de pendiente y ordenada al origen calculados en el ESP32 fueron visualizados por el monitor serial. El valor m de la pendiente fue de -0,0063 y el valor de la ordenada al origen b fue de 22,98. 
+A partir de los datos obtenidos se puede graficar la recta de ajuste que relaciona el valor de pH con el valor medido por el ADC, como se muestra en la figura \ref{fig:rectaADC}. Los valores de pendiente y ordenada al origen calculados en el ESP32 fueron visualizados por el monitor serial. El valor m de la pendiente fue de -0,0063 y el valor de la ordenada al origen b fue de 22,98. 
 
 \begin{figure}[htbp]
 	\centering
@@ -58,7 +58,7 @@ Luego de repetir el ensayo, se obtuvo que el error en la medición del potencial
 
 \subsection{Calibración del volumen inyectado por la bomba}
 
-El control de bomba se realiza utilizando un esquema de lazo abierto, es decir que, cuando se inyecta líquido, el microcontrolador  no realiza una medición del caudal o del volumen que fue desplazado. A raíz de esto, surge la necesidad de establecer una relación entre la cantidad de micro pasos que realiza el motor y la cantidad de volumen que inyecta la bomba. Esto permite tener una unidad de medida y verificar si cumple con los requerimientos establecidos. Esta relación es difícil de obtener de manera teórica mediante el uso de modelos, por lo que se decidió realizar una serie de dosificaciones de un líquido de densidad conocida y pesar la cantidad dosificada para determinar el volumen.
+El control de la bomba se realiza utilizando un esquema de lazo abierto, es decir que, cuando se inyecta líquido, el microcontrolador  no realiza una medición del caudal o del volumen que fue desplazado. A raíz de esto, surge la necesidad de establecer una relación entre la cantidad de micro pasos que realiza el motor y la cantidad de volumen que dosifica la bomba. Esto permite tener una unidad de medida y verificar si cumple con los requerimientos establecidos. Esta relación es difícil de obtener de manera teórica mediante el uso de modelos, por lo que se decidió realizar una serie de dosificaciones de un líquido de densidad conocida y pesar la cantidad dosificada para determinar el volumen.
 El banco de pruebas utilizado para realizar este ensayo se muestra en la figura \ref{fig:bancoPruebasBomba}. En este proceso el fluido a dosificar fue agua de red domiciliaria, con una densidad estimada de 1 g/mL, y se utilizó una balanza de hasta 200 g con un error de ±0,01 g. El agua fue pesada en un vaso de precipitado previamente tarado.
 
 \begin{figure}[htbp]
@@ -124,7 +124,7 @@ El banco de pruebas utilizado se muestra en la figura \ref{fig:bancoPruebasCompl
 	\label{fig:bancoPruebasCompleto}
 \end{figure}
 
-La calibración del electrodo inicia cuando se ingresa en la opción CALIBRAR de la pantalla táctil. Allí se presiona la opción de BUFFER 4 y se coloca el \textit{buffer} correspondiente en un recipiente. Luego se introduce el electrodo y cuando la medición se estabiliza se presiona GUARDAR. Se realiza el mismo procedimiento para el resto de los buffers y finalmente se presiona REGRESAR. En figura \ref{fig:casoParte1} se muestra la secuencia correspondiente a uno de los \textit{buffers}.
+La calibración del electrodo inicia cuando se ingresa en la opción CALIBRAR de la pantalla táctil. Allí se presiona la opción de BUFFER 4 y se coloca el \textit{buffer} correspondiente en un recipiente. Luego se introduce el electrodo y cuando la medición se estabiliza se presiona GUARDAR. Se realiza el mismo procedimiento para el resto de los \textit{buffers} y finalmente se presiona REGRESAR. En figura \ref{fig:casoParte1} se muestra la secuencia correspondiente a uno de los \textit{buffers}.
 
 \begin{figure}[htbp]
 	\centering
@@ -133,7 +133,7 @@ La calibración del electrodo inicia cuando se ingresa en la opción CALIBRAR de
 	\label{fig:casoParte1}
 \end{figure}
 
-Luego de la calibración y previo a la titulación es necesario realizar la limpieza con el titulante para eliminar las impurezas y purgar las mangueras de la bomba. Además, se debe establecer el valor del volumen de corte, que este caso se fijó en 35 mL. En la figura \ref{fig:casoParte2} se muestran las pantallas correspondientes a estos procesos.
+Luego de la calibración y previo a la titulación es necesario realizar la limpieza con el titulante para eliminar las impurezas y purgar las mangueras de la bomba. Además, se debe establecer el valor del volumen de corte, que para este caso se fijó en 35 mL. En la figura \ref{fig:casoParte2} se muestran las pantallas correspondientes a estos procesos.
 
 \begin{figure}[htbp]
 	\centering
@@ -151,7 +151,7 @@ A continuación se realiza la titulación. El tipo de titulación realizada es l
 	\label{fig:casoParte3}
 \end{figure}
 
-En este instante se puede actualizar la página web y extraer el archivo de la memoria micro SD para visualizar el resultado y cada uno de los datos registrados, tal y como muestran las figuras \ref{fig:resultadoWeb.jpg} y \ref{fig:resultadoSD}, respectivamente.
+En este instante se puede actualizar la página web y extraer el archivo de la memoria micro SD para visualizar el resultado y cada uno de los datos registrados, tal y como muestran las figuras \ref{fig:resultadoWeb.jpg} y \ref{fig:resultadoSD}, respectivamente. Se observa que el volumen en el punto final es de 25 mL, al igual que el modelo teórico visto anteriormente.
 
 \begin{figure}[htbp]
 	\centering

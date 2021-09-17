@@ -169,7 +169,7 @@ Además, el DVR8825 tiene la posibilidad de utilizar la técnica de \textit{micr
 
 \subsection{Módulo de adaptación para electrodo}
 
-En la sección \ref{sec:electrodoPH} se mencionó que el electrodo entrega un potencial que depende del pH de la muestra y se ubica entre -401,7 y 402,8 mV. Para poder procesar estos valores con el ADC del ESP32, cuyo rango de entrada es de 0 a 3500 mV, es necesario amplificar la señal, adaptar niveles de tensión para que estén dentro de un rango positivo, y adaptar impedancias. Por ello, se utilizó el módulo pH-4502C de la figura \ref{fig:pH-4502C}.
+En la sección \ref{sec:electrodoPH} se mencionó que el electrodo entrega un potencial que depende del pH de la muestra y se ubica entre -401,7 y 402,8 mV. Para poder procesar estos valores con el ADC del ESP32, cuyo rango de entrada es de 0 a 3500 mV, es necesario amplificar la señal, adaptar niveles de tensión para que estén dentro de un rango positivo y adaptar impedancias. Por ello, se utilizó el módulo pH-4502C de la figura \ref{fig:pH-4502C}.
 
 \begin{figure}[htbp]
 	\centering
@@ -189,7 +189,7 @@ El potenciómetro RV1 permite modificar el nivel de tensión que se tiene en la 
 	\label{fig:etReferencia}
 \end{figure}
 
-En segundo lugar, el módulo posee una etapa de amplificación la señal, la cual utiliza un amplificador operacional con una configuración del tipo no inversor y con una ganancia de 2, como muestra la figura \ref{fig:etapaAmpli}.
+En segundo lugar, el módulo posee la etapa de amplificación de señal que muestra muestra la figura \ref{fig:etapaAmpli}. Esta utiliza un amplificador operacional con una configuración del tipo no inversor y con una ganancia de 2. 
 
 \begin{figure}[htbp]
 	\centering
