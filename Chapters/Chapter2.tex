@@ -11,7 +11,7 @@ En este capítulo se  realiza una revisión detallada de los dispositivos y tecn
 \section{Electrodos de pH}
 \label{sec:electrodoPH}
 
-Un electrodo muy usado hoy en día es el electrodo combinado, que está formado por dos electrodos dentro del mismo encapsulado. En la figura \ref{fig:electrodoCombinado} se observa un electrodo combinado que está formado por un electrodo de referencia, que consiste en un alambre clorurado de plata en una solución de KCl saturada, y un electrodo indicador, formado por el alambre clorurado de plata más una membrana de vidrio sensible al pH.
+Un electrodo muy usado hoy en día es el electrodo combinado, que está formado por dos electrodos dentro del mismo encapsulado. En la figura \ref{fig:electrodoCombinado} se observa un electrodo combinado que está formado por un electrodo de referencia, que consiste en un alambre clorurado de plata en una solución de KCl saturada, y un electrodo indicador, formado por el alambre clorurado de plata más una membrana de vidrio sensible al pH \citep{ARTICLE:4}.
 
 \begin{figure}[htbp]
 	\centering
@@ -89,11 +89,11 @@ La carcasa, el rotor y la cubierta exterior están impresas con ácido poliláct
 %----------------------------------------------------------------------------------------
 \section{Módulos de hardware}
 
-Dado que el alcance del trabajo no incluyó el diseño de un hardware \textit{ad hoc}, se buscaron distintos módulos que satisfagan las necesidades y simplifiquen la tarea de armar el prototipo. Esto permitió también dedicarle más tiempo al desarrollo de firmware. En cada una de las siguientes secciones se describen los módulos utilizados.
+Dado que el alcance del trabajo no incluyó el diseño de un hardware \textit{ad hoc}, se buscaron distintos módulos que satisfagan las necesidades y simplifiquen la tarea de armar el prototipo. Esto permitió también dedicarle más tiempo al desarrollo de firmware. En cada una de las siguientes secciones se describen los módulos utilizados \citep{WEBSITE:3}.
 
 \subsection{Microcontrolador ESP32}
 
-Para el desarrollo del prototipo se utilizó la placa de desarrollo ESP32-DevKitC de la figura \ref{fig:ESP32.jpeg}. Esta placa contiene un módulo ESP32 con Wi-Fi y Bluetooth integrado y un sistema de doble núcleo, cada uno con un CPU Xtensa LX6 de 32 bits.
+Para el desarrollo del prototipo se utilizó la placa de desarrollo ESP32-DevKitC de la figura \ref{fig:ESP32.jpeg}. Esta placa contiene un módulo ESP32 con Wi-Fi y Bluetooth integrado y un sistema de doble núcleo, cada uno con una CPU Xtensa LX6 de 32 bits.
 
 \begin{figure}[htbp]
 	\centering
@@ -115,7 +115,7 @@ Las principales características de esta placa de desarrollo que se tuvieron en 
 		\item PWM
 	\end{itemize}
 
-Para el desarrollo del \textit{firmware} se utilizó el \textit{framework} ESP-IDF de Espressif Systems, que ofrece una API para trabajar con sistemas operativos de tiempo real. La API utiliza una versión de FreeRTOS adaptada al doble núcleo del procesador, 	que permite decidir en que núcleo se ejecuta cada tarea, así como también ofrece funciones dedicadas al resto de los periféricos mencionados anteriormente.
+Para el desarrollo del \textit{firmware} se utilizó el \textit{framework} ESP-IDF de Espressif Systems, que ofrece una API para trabajar con sistemas operativos de tiempo real. La API utiliza una versión de FreeRTOS adaptada al doble núcleo del procesador, 	que permite decidir en que núcleo se ejecuta cada tarea, así como también ofrece funciones dedicadas al resto de los periféricos mencionados anteriormente \citep{WEBSITE:4}.
 
 \vspace{1.5cm}
 
@@ -123,7 +123,7 @@ Para el desarrollo del \textit{firmware} se utilizó el \textit{framework} ESP-I
 
 Los tituladores comerciales cuentan con una pantalla a través de la cuál se muestra una interfaz de usuario que permite acceder a las configuraciones y controlar las distintas funciones. En algunos casos, la pantalla está acompañada por un teclado y en otros casos, cuenta directamente con un panel táctil. Para este trabajo se decidió optar por la segunda opción ya que permite mayor flexibilidad a la hora de realizar cambios en la interfaz.
 
-Entre las opciones disponibles en el mercado, se eligió módulo MCUFRIEND de la figura \ref{fig:LCDFrente} que contiene una pantalla LCD de 2,4'' con un panel táctil y un lector de tarjetas SD. El control de la pantalla táctil se realiza a través de 5 pines de control y 8 pines de datos, mientras que el control del módulo SD se realiza mediante una comunicación SPI.
+Entre las opciones disponibles en el mercado, se eligió el módulo MCUFRIEND de la figura \ref{fig:LCDFrente} que contiene una pantalla LCD de 2,4'' con un panel táctil y un lector de tarjetas SD. El control de la pantalla táctil se realiza a través de 5 pines de control y 8 pines de datos, mientras que el control del módulo SD se realiza mediante una comunicación SPI \citep{WEBSITE:5}.
 
 \begin{figure}[htbp]
 	\centering
@@ -134,7 +134,7 @@ Entre las opciones disponibles en el mercado, se eligió módulo MCUFRIEND de la
 
 \subsection{Microcontrolador ATmega328p}
 
-Para el control de la pantalla táctil se optó por usar un microcontrolador ATmega328p, como el de la figura \ref{fig:ATmega328p}. Se trata de un microcontrolador de 8 bits, que trabaja a una frecuencia de hasta 20 MHz, con 23 pines de entrada/salida y un puerto para la comunicación UART, entre otros periféricos.
+Para el control de la pantalla táctil se optó por usar un microcontrolador ATmega328p, como el de la figura \ref{fig:ATmega328p}. Se trata de un microcontrolador de 8 bits, que trabaja a una frecuencia de hasta 20 MHz, con 23 pines de entrada/salida y un puerto para la comunicación UART, entre otros periféricos \citep{WEBSITE:6}.
 
 \begin{figure}[htbp]
 	\centering
@@ -156,7 +156,7 @@ Se decidió utilizar este microcontrolador como interfaz intermedia entre el ESP
 
 Previamente, en la sección \ref{sec:bomba}, se mencionó que la bomba utiliza un motor paso a paso. Para que el módulo ESP32 pueda controlarlo, es necesario utilizar un \textit{driver} que otorgue los niveles de tensión y corriente adecuados para su correcto funcionamiento.
 
-Para este trabajo se utilizó el módulo DRV8825 de la figura \ref{fig:DRV8825-Frente}, que permite el manejo de motores paso a paso de hasta 2,5 A. Para el control del motor dispone de dos pines. Uno de los pines permite definir el sentido de giro según reciba un 0 o un 1 lógico. El otro pin produce el desplazamiento de un paso cada vez que detecta un flanco de subida ascendente. De esta forma, mediante una onda cuadrada se puede producir el giro de manera continua a una velocidad directamente proporcional a la frecuencia de la onda.
+Para este trabajo se utilizó el módulo DRV8825  \citep{WEBSITE:7} de la figura \ref{fig:DRV8825-Frente}, que permite el manejo de motores paso a paso de hasta 2,5 A. Para el control del motor dispone de dos pines. El primero de ellos permite definir el sentido de giro según reciba un 0 o un 1 lógico, mientras que el otro produce el desplazamiento de un paso cada vez que detecta un flanco de subida ascendente. De esta forma, mediante una onda cuadrada se puede producir el giro de manera continua a una velocidad directamente proporcional a la frecuencia de la onda.
 
 \begin{figure}[htbp]
 	\centering
@@ -169,7 +169,7 @@ Además, el DVR8825 tiene la posibilidad de utilizar la técnica de \textit{micr
 
 \subsection{Módulo de adaptación para electrodo}
 
-En la sección \ref{sec:electrodoPH} se mencionó que el electrodo entrega un potencial que depende del pH de la muestra y se ubica entre -401,7 y 402,8 mV. Para poder procesar estos valores con el ADC del ESP32, cuyo rango de entrada es de 0 a 3500 mV, es necesario amplificar la señal, adaptar niveles de tensión para que estén dentro de un rango positivo y adaptar impedancias. Por ello, se utilizó el módulo pH-4502C de la figura \ref{fig:pH-4502C}.
+En la sección \ref{sec:electrodoPH} se mencionó que el electrodo entrega un potencial que depende del pH de la muestra y se ubica entre -401,7 y 402,8 mV. Para poder procesar estos valores con el ADC del ESP32, cuyo rango de entrada es de 0 a 3500 mV, es necesario amplificar la señal, adaptar niveles de tensión para que estén dentro de un rango positivo y adaptar impedancias. Por ello, se utilizó el módulo pH-4502C \citep{WEBSITE:8} de la figura \ref{fig:pH-4502C}.
 
 \begin{figure}[htbp]
 	\centering

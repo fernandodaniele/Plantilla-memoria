@@ -29,7 +29,7 @@ La tabla \ref{tab:ensayoCalibracion} muestra las mediciones correspondientes a c
 
 \begin{table}[h]
 	\centering
-	\caption[Resultados calibración]{Datos obtenidos durante el proceso de calibración}
+	\caption[Resultados calibración.]{Datos obtenidos durante el proceso de calibración.}
 	\begin{tabular}{c c c }    
 		\toprule
 		\textbf{\textit{Buffer} [pH]} & \textbf{Salida pH4602C [V] }	&    \textbf{Lectura ADC}  \\
@@ -43,7 +43,7 @@ La tabla \ref{tab:ensayoCalibracion} muestra las mediciones correspondientes a c
 	\label{tab:ensayoCalibracion}
 \end{table}
 
-La diferencia de potencial entregada por módulo pH4502C fue medida por un voltímetro y se representa en la segunda columna, mientras que el valor leído por el ADC se visualiza en la computadora a través de un monitor serial. Este valor es un número directamente proporcional a la tensión, con un valor de 0 para 0 V y un valor de 4095 para 3,5 V.
+La diferencia de potencial entregada por el módulo pH4502C fue medida por un voltímetro y se representa en la segunda columna, mientras que el valor leído por el ADC se visualiza en la computadora a través de un monitor serial. Este valor es un número directamente proporcional a la tensión, con un valor de 0 para 0 V y un valor de 4095 para 3,5 V.
 
 A partir de los datos obtenidos se puede graficar la recta de ajuste que relaciona el valor de pH con el valor medido por el ADC, como se muestra en la figura \ref{fig:rectaADC}. Los valores de pendiente y ordenada al origen calculados en el ESP32 fueron visualizados por el monitor serial. El valor m de la pendiente fue de -0,0063 y el valor de la ordenada al origen b fue de 22,98. 
 

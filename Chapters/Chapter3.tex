@@ -39,7 +39,7 @@
 }
 %----------------------------------------------------------------------------------------
 
-En este capítulo se detallan los componentes de \textit{firmware} y hardware diseñados e implementados por el autor, su interrelación, y los criterios seguidos.
+En este capítulo se detallan los componentes de \textit{firmware} y hardware diseñados e implementados, su interrelación, y los criterios seguidos.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
@@ -57,9 +57,9 @@ Para abordar el trabajo realizado, en esta sección se expone la arquitectura ge
 
 El componente principal del sistema es el ESP32, que tiene como función coordinar cada una de las partes intervinientes. A través de una comunicación del tipo UART con el ATmega328p, recibe las órdenes ingresadas a través de la pantalla táctil para realizar las configuraciones o funciones que solicite el usuario.
 
-Dentro de las principales configuraciones, está la posibilidad de modificar el volumen de corte y de habilitar o no el agitador. El volumen de corte es la cantidad máxima de titulante que se utiliza durante la titulación. Cuando se alcanza ese valor, el proceso se detiene automáticamente. En cuanto a la habilitación del agitador, permite elegir si el mismo se activa o no al iniciar la titulación.
+Dentro de las principales configuraciones está la posibilidad de modificar el volumen de corte y de habilitar o no el agitador. El volumen de corte es la cantidad máxima de titulante que se utiliza durante la titulación. Cuando se alcanza ese valor, el proceso se detiene automáticamente. En cuanto a la habilitación del agitador, permite elegir si el mismo se activa o no al iniciar la titulación.
 
-Las funciones principales que ofrece el sistema son las de limpieza, calibración y titulación. El modo limpieza se utiliza para purgar la bomba previo al proceso de titulación y para eliminar los retos de titulante que quedan en las mangueras al finalizar el proceso. 
+Las funciones principales que ofrece el sistema son las de limpieza, calibración y titulación. El modo limpieza se utiliza para purgar la bomba previo al proceso de titulación y para eliminar los restos de titulante que quedan en las mangueras al finalizar el proceso. 
 
 La calibración permite ajustar el valor leído por el ADC, en el cual se encuentra conectado el módulo pH4502C. Para llevarla a cabo, se hace uso de tres líquidos patrones, denominados \textit{buffers}, de pH 4, 7 y 10, respectivamente. Se debe realizar la calibración de manera periódica, ya que las propiedades del electrodo varían con el tiempo.
 
@@ -67,15 +67,15 @@ Una vez realizadas las configuraciones correspondientes de limpieza y calibraci�
 
 Luego, el ESP32 calcula la derivada primera para cada valor de volumen y pH asociados y, en base al máximo absoluto de esta curva, encuentra la cantidad de volumen inyectado en el punto final. Tanto este resultado, como todos los valores registrados, se almacenan en la memoria micro SD, a través de una comunicación SPI con el módulo correspondiente, y en la página web, que se encuentra embebida en la memoria del ESP32. A través de una conexión de área local, se puede acceder a esta página desde otro dispositivo y visualizar los resultados.
 
-Para realizar las actividades mencionadas previamente, el ESP32 ejecuta tres tareas: la tarea encargada de la comunicación UART con el ATmega328p, que se aloja en el núcleo 0, y las tareas de medición del electrodo y de control de la bomba, que se alojan en el núcleo 1. Además, existe un controlador de eventos, que se ejecuta sobre el núcleo 0 cuando alguien accede a la página web.
+Para realizar las actividades mencionadas previamente, el ESP32 ejecuta tres tareas: la tarea encargada de la comunicación UART con el ATmega328p, que se ejecuta en el núcleo 0, y las tareas de medición del electrodo y de control de la bomba, que se ejecutan en el núcleo 1. Además, existe un controlador de eventos, que se ejecuta sobre el núcleo 0 cuando alguien accede a la página web.
 
 
 %----------------------------------------------------------------------------------------
 \section{Medición del electrodo}
 
-La medición del electrodo es un módulo de \textit{firmware} que implementa una tarea de FreeRTOS. El objetivo de esta tarea es obtener el valor del conversor ADC, que proviene del módulo pH-4502C, y es ejecutada durante los procesos de calibración y de titulación. En el código \ref{cod:tareaElectrodo} se muestra el pseudocódigo de la tarea de medición del electrodo. Al inicio de esta tarea se realiza la configuración del ADC utilizado, el cual se habilita con una resolución de 12 bits en el pin correspondiente al canal 6 del ADC número 1.
+La medición del electrodo se ejecuta en el contexto de una tarea de FreeRTOS. El objetivo de esta tarea es obtener el valor del conversor ADC, que proviene del módulo pH-4502C, y es ejecutada durante los procesos de calibración y de titulación. En el código \ref{cod:tareaElectrodo} se muestra el pseudocódigo de la tarea de medición del electrodo. Al inicio de esta tarea se realiza la configuración del ADC utilizado, el cual se habilita con una resolución de 12 bits en el pin correspondiente al canal 6 del ADC número 1.
 
-La lectura del valor del ADC se acumula en la variable sumaAdc durante las N iteraciones del bucle \textit{for}. Estas iteraciones se realizan cada un intervalo de 10 mS y, al finalizar el bucle \textit{for}, el valor total se divide por la cantidad de muestras realizadas, lo que permite promediar el valor leído y así reducir el ruido presente en la conversión, tal y como sugiere la página oficial del ESP32 \citep{WEBSITE:2}. Cabe destacar que el acceso a la variable valorAdc está protegido por una sección crítica, ya que el resto de las tareas también pueden acceder a la variable cuando precisan calcular el valor de pH.
+La lectura del valor del ADC se acumula en la variable sumaAdc durante las N iteraciones del bucle \textit{for}. Estas iteraciones se realizan cada un intervalo de 10 ms y, al finalizar el bucle \textit{for}, el valor total se divide por la cantidad de muestras realizadas, lo que permite promediar el valor leído y así reducir el ruido presente en la conversión, tal y como sugiere la página oficial del ESP32 \citep{WEBSITE:2}. Cabe destacar que el acceso a la variable valorAdc está protegido por una sección crítica, ya que el resto de las tareas también pueden acceder a la variable cuando precisan calcular el valor de pH.
 
 \begin{lstlisting}[label=cod:tareaElectrodo,caption=Pseudocódigo de la tarea de medición de pH.]
 void tareaElectrodo (void *arg)
@@ -86,15 +86,15 @@ void tareaElectrodo (void *arg)
 
     while(true)
     {
-    for (int i=0; i< N_MUESTRAS; i++)
-    {
-        sumaAdc = sumaAdc + lecturaADC(pin);  
-        vTaskDelay(10 mS);
-    } 
-    inicioSeccionCritica(); 
-    valorAdc = sumaAdc / N_MUESTRAS;
-    finSeccionCritica();
-    sumaAdc = 0;
+    		for (int i=0; i< N_MUESTRAS; i++)
+    		{
+        		sumaAdc = sumaAdc + lecturaADC(pin);  
+        		vTaskDelay(10 mS);
+    		} 
+    		inicioSeccionCritica(); 
+    		valorAdc = sumaAdc / N_MUESTRAS;
+    		finSeccionCritica();
+    		sumaAdc = 0;
     }
 }
 \end{lstlisting}
@@ -106,7 +106,7 @@ En todo equipo de medición es importante asegurar que los valores sean confiabl
 
 La calibración de electrodos de pH se realiza mediante la utilización de \textit{buffers}, que son patrones de medición en estado líquido, de pH 4, 7 y 10. Esto permite asociar el potencial que entrega el electrodo a su valor de pH correspondiente y crear la ecuación de la recta que mejor se ajuste a estos tres puntos, ya que, como se menciona en la ecuación \ref{eq:phElectrodo} del capítulo \ref{Chapter2}, el valor de pH de la muestra es inversamente proporcional a la diferencia de potencial que entrega el electrodo.
 
-En este trabajo se incluye un proceso de calibración, que el usuario puede acceder desde el menú de la pantalla táctil, para realizar la calibración con cada uno de los tres patrones mencionados. Para ello, el electrodo debe estar en contacto con el \textit{buffer} durante unos segundos hasta que el valor de la medición se estabilice y, en ese momento, el usuario puede guardar el valor leído por el ADC, el cual queda asociado al valor de pH del patrón utilizado. Una vez realizado el proceso para los tres \textit{buffers}, se obtienen tres puntos con los cuales se puede construir la recta de regresión, que es la recta que mejor se ajusta a estos tres puntos. De este cálculo, surge la pendiente m y la ordenada al origen b, que son valores que se almacenan en la memoria flash no volátil del ESP32, y se utilizan en la ecuación \ref{eq:conversionPh}. Está ecuación se ejecuta cada vez que el ESP32 necesita convertir la variable valorADC a un valor de pH.
+En este trabajo se incluye un proceso de calibración, que el usuario puede acceder desde el menú de la pantalla táctil, para realizar la calibración con cada uno de los tres patrones mencionados. Para ello, el electrodo debe estar en contacto con el \textit{buffer} durante unos segundos hasta que el valor de la medición se estabilice. En ese momento, el usuario puede guardar el valor leído por el ADC, el cual queda asociado al valor de pH del patrón utilizado. Una vez realizado el proceso para los tres \textit{buffers}, se obtienen tres puntos con los cuales se puede construir la recta de regresión, que es la recta que mejor se ajusta a estos tres puntos. De este cálculo, surge la pendiente m y la ordenada al origen b, que son valores que se almacenan en la memoria flash no volátil del ESP32, y se utilizan en la ecuación \ref{eq:conversionPh}. Está ecuación se ejecuta cada vez que el ESP32 necesita convertir la variable valorADC a un valor de pH.
 
 \begin{equation}
 	\label{eq:conversionPh}
@@ -117,9 +117,9 @@ pH = m * valorAdc + b
 %----------------------------------------------------------------------------------------
 \section{Control de la bomba}
 
-El control de la bomba se realiza a través del \textit{driver} DVR8825, que maneja al motor paso a paso y, mediante hardware, fue configurado con el \textit{microsteping} en 1/32. Esto significa que el motor debe realizar 6400 micropasos para producir un giro completo. Los pines de dirección y de paso están conectados a dos pines del ESP32. El pin de dirección fue configurado mediante software para producir el sentido de giro que permite desplazar el titulante desde su recipiente hasta el recipiente de la muestra. En cuanto al pin de paso, este es controlado por PWM, que genera una onda cuadrada de 10 KHz. Esto se traduce a una velocidad de 93,75 rpm en el eje del motor.
+El control de la bomba se realiza a través del \textit{driver} DVR8825, que maneja al motor paso a paso. Fue configurado, mediante hardware, con el \textit{microsteping} en 1/32. Esto significa que el motor debe realizar 6400 micropasos para producir un giro completo. Los pines de dirección y de paso están conectados a dos pines del ESP32. El pin de dirección fue configurado mediante software para producir el sentido de giro que permite desplazar el titulante desde su recipiente hasta el de la muestra. En cuanto al pin de paso, este es controlado por PWM, que genera una onda cuadrada de 10 KHz. Esto se traduce a una velocidad de 93,75 rpm en el eje del motor.
 
-Las configuraciones de software mencionadas anteriormente se realizan al inicio la tarea de control de la bomba, en el bloque correspondiente a configuración de PWM del diagrama que muestra la figura \ref{fig:flujoBomba}.
+Las configuraciones de software mencionadas anteriormente se realizan al inicio de la tarea de control de la bomba, en el bloque correspondiente a configuración de PWM del diagrama que muestra la figura \ref{fig:flujoBomba}.
 
 Una vez realizadas las configuraciones, la tarea de control de la bomba tiene la posibilidad de ejecutar dos funciones según lo que decida el usuario a través de la pantalla táctil. Una de las opciones es el proceso de limpieza, en el cual simplemente se activa la bomba, es decir, se habilita el PWM que produce la onda cuadrada que llega al pin de paso del DVR8825 y genera el giro del motor. Este proceso se ejecuta hasta que el usuario decida detenerlo.
 
@@ -169,7 +169,7 @@ Como se mencionó anteriormente, la máquina de estados funciona dentro del ATme
 
 \begin{itemize}
 	\item Comando ''A'': El ATmega328p le indica al ESP32 que inicie el proceso de calibración.
-	\item Comando ''B'': El ATmega328p le indica al ESP32 que finalice el proceso de calibración. El ESP32 calcula el coeficiente y la ordenada al origen la ecuación que convierte el valor leído por el ADC a pH.
+	\item Comando ''B'': El ATmega328p le indica al ESP32 que finalice el proceso de calibración. El ESP32 calcula la pendiente y la ordenada al origen de la ecuación \ref{eq:conversionPh}.
 	\item Comando ''C'': El ATmega328p le indica al ESP32 que convierta el valorAdc a pH y lo devuelva como respuesta.
 	\item Comando ''D'': El ATmega328p le indica al ESP32 que el usuario guarde el valor actual de valorAdc como valor de calibración del \textit{buffer} de pH 4.
 	\item Comando ''E'': El ATmega328p le indica al ESP32 que el usuario guarde el valor actual de valorAdc como valor de calibración del \textit{buffer} de pH 7.
@@ -196,7 +196,7 @@ La API ESP-IDF incorpora funciones de alto nivel para la configuración, lectura
 
 La función inicializarSD se llama al inicio desde la función principal, previo a la creación de tareas, y hace la configuración inicial para habilitar el uso de la memoria micro SD. Dentro de ella, se hace el llamado a  la función spi\_bus\_initialize que inicia el bus SPI con las configuraciones de pines y velocidad, entre otras necesarias para la comunicación. Luego se realiza el llamado a esp\_vfs\_fat\_sdspi\_mount que especifica que sobre el bus SPI se monta una memoria del tipo SD que funciona con el sistema de archivos FAT.
 
-La función para escribir en el archivo es accedida desde la tarea de la bomba para almacenar los datos correspondientes al volumen inyectado y pH y, además, el resultado del volumen en el punto final. El detalle de esta función se muestra en el pseudocódigo \ref{cod:escribeSD}, donde se observa que se abre un archivo y en caso de que no se produzca un error, se procede a la escritura y finalmente se cierra el archivo.
+La función para escribir en el archivo es accedida desde la tarea de la bomba para almacenar los datos correspondientes al volumen inyectado y pH y, además, el resultado del volumen en el punto final. El detalle de esta función se muestra en el pseudocódigo \ref{cod:escribeSD}. En la línea 1 se abre un archivo y en caso de que no se produzca un error, se procede a la escritura (línea 5) y finalmente se cierra el archivo (línea 6).
 
 \begin{lstlisting}[label=cod:escribeSD,caption=Pseudocódigo de la función que escribe en la memoria SD.]
     FILE* f = fopen("TITULAR.txt", "a"); //Abre el archivo
@@ -207,7 +207,6 @@ La función para escribir en el archivo es accedida desde la tarea de la bomba p
     fclose(f);
     return OK;
 \end{lstlisting}
-
 
 
 %----------------------------------------------------------------------------------------
@@ -251,14 +250,14 @@ paginaHandler() //evento que se ejecuta cuando alguien accede a la pagina
 
 \end{lstlisting}
 
-La función iniciarWiFi se encarga de habilitar la conexión Wi-Fi en modo estación, con el nombre de la red y la contraseña del punto de acceso al cual se desea conectar. Por último, registra eventos que se ejecutan cuando hay un cambio de ip o se produce un corte en la conexión, y tienen como objetivo restablecer la conexión.
+La función iniciarWiFi de la línea 10 se encarga de habilitar la conexión Wi-Fi en modo estación, con el nombre de la red y la contraseña del punto de acceso al cual se desea conectar. En la línea 16 registra eventos que se ejecutan cuando hay un cambio de ip o se produce un corte en la conexión, y tienen como objetivo restablecer la conexión.
 
-La función iniciarServidorWeb inicia un servidor HTTP con las configuraciones por defecto que ofrece la API y registra un evento asociado a la página web. Este evento se ejecuta cuando un cliente, conectado a la red local, intenta establecer la conexión mediante la ip asociada al ESP32. El controlador del evento ejecuta la función que actualiza la página web con los datos obtenidos en el último proceso de titulación.
+La función iniciarServidorWeb de la línea 20 inicia un servidor HTTP con las configuraciones por defecto que ofrece la API y registra un evento asociado a la página web. Este evento se ejecuta cuando un cliente, conectado a la red local, intenta establecer la conexión mediante la ip asociada al ESP32. El controlador del evento ejecuta la función  de la línea 28 que actualiza la página web con los datos obtenidos en el último proceso de titulación.
 
 %----------------------------------------------------------------------------------------
 \section{Esquemáticos y PCB}
 
-El diseño de los esquemáticos y del circuito impreso fueron realizados mediante la herramienta Kicad. En la figura \ref{fig:esquematicoESP} se observan la fuente de alimentación y las conexiones asociadas al ESP32. La fuente de alimentación consta de un regulador de tensión de 5 V y su entrada proviene de una fuente externa de 12 V de corriente continua.
+El diseño de los esquemáticos y del circuito impreso fueron realizados mediante la herramienta KiCad \citep{WEBSITE:9}. En la figura \ref{fig:esquematicoESP} se observan la fuente de alimentación y las conexiones asociadas al ESP32. La fuente de alimentación consta de un regulador de tensión de 5 V y su entrada proviene de una fuente externa de 12 V de corriente continua.
 
 El ESP32 se conecta al módulo pH4502C mediante divisores resistivos para adaptar tensiones. Utiliza dos pines GPIO para la conexión al módulo DVR8825, un pin GPIO para la conexión al \textit{driver} del agitador, cuatro pines para la comunicación SPI con el módulo lector de tarjetas micro SD y dos pines para la comunicación UART con el ATmega328p. Además, los pines sin uso están conectados a tiras de pines para aplicaciones futuras.
 
@@ -278,7 +277,7 @@ La figura \ref{fig:esquematicoAtmega} muestra las conexiones del ATmega328p con 
 	\label{fig:esquematicoAtmega}
 \end{figure}
 
-El \textit{driver} DVR8825 tiene conectado un \textit{dip switch} que permite establecer por hardware el valor de configuración de \textit{microsteping}. Además, tiene el conector para los cables de las bobinas del motor. El \textit{driver} del agitador está formado por un transistor BJT en configuración común. Estos circuitos están representados en la figura \ref{fig:esquematicoMotores}.
+El \textit{driver} DVR8825 tiene conectado un \textit{dip switch} que permite establecer por hardware el valor de configuración de \textit{microsteping}. Además, tiene el conector para los cables de las bobinas del motor. El \textit{driver} del agitador está formado por un transistor BJT en configuración común \cite{BOOK:3}. Estos circuitos están representados en la figura \ref{fig:esquematicoMotores}.
 
 \begin{figure}[htbp]
 	\centering
@@ -287,7 +286,7 @@ El \textit{driver} DVR8825 tiene conectado un \textit{dip switch} que permite es
 	\label{fig:esquematicoMotores}
 \end{figure}
 
-El circuito impreso es una placa de 75 x 150 mm de dimensiones, diseñada en simple faz, y tiene como función la conexión de todos los módulos utilizados. En la figura \ref{fig:pcb3D} se observa el modelo 3D, mientras que en la figura \ref{fig:pcbPrototipo} se muestra una imagen del PCB construido.
+El circuito impreso es una placa de 75 x 150 mm de dimensiones, diseñada en simple faz, y tiene como función la conexión de todos los módulos utilizados. En la figura \ref{fig:pcb3D} se observa el modelo 3D, mientras que en la figura \ref{fig:pcbPrototipo} se muestra una imagen del PCB construido de manera casera.
 
 
 \begin{figure}[htbp]
