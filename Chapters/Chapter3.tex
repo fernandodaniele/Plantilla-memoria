@@ -61,7 +61,7 @@ Por otro lado, el ESP32 realiza el control del motor de la bomba a través del \
 
 Otra de las funciones del ESP32 es realizar la medición del pH de la muestra. Para eso utiliza el conversor ADC que lee el valor de potencial entregado por el módulo pH-4205C. Esta medición se utiliza en la calibración y en la titulación.
 
-Por último, el ESP32 se encarga de registrar las mediciones de pH y la cantidad de volumen que dosifica la bomba. Estos valores se almacenan en una memoria micro SD y también puede ser visualizados a través de una pagina web.
+Por último, el ESP32 se encarga de registrar las mediciones de pH y la cantidad de volumen que dosifica la bomba. Estos valores se almacenan en una memoria micro SD y también puede ser visualizados a través de una página web.
 
 Para realizar las actividades mencionadas previamente, el ESP32 ejecuta tres tareas: la tarea encargada de la comunicación UART con el ATmega328p, que se ejecuta en el núcleo 0, y las tareas de medición del electrodo y de control de la bomba, que se ejecutan en el núcleo 1. Además, existe un controlador de eventos, que se ejecuta sobre el núcleo 0 cuando alguien accede a la página web.
 En las siguientes secciones estas tareas son desarrolladas con mayor profundidad.
@@ -124,7 +124,7 @@ pH = m * valorAdc + b
 %----------------------------------------------------------------------------------------
 \section{Control de la bomba}
 
-El control del motor de la bomba se realiza a través del \textit{driver} DVR8825. Este fue configurado, mediante hardware, con el \textit{microsteping} en 1/32. Esto significa que el motor debe realizar 6400 micropasos para producir un giro completo. Los pines de dirección y de paso están conectados a dos pines del ESP32. El pin de dirección fue configurado mediante software para producir el sentido de giro que permite desplazar el titulante desde su recipiente hasta el de la muestra. En cuanto al pin de paso, este es controlado por PWM, que genera una onda cuadrada de 10 KHz. Esto se traduce a una velocidad de 93,75 rpm en el eje del motor.
+El control del motor de la bomba se realiza a través del \textit{driver} DVR8825. Este fue configurado, mediante hardware, con el \textit{microsteping} en 1/32. Esto significa que el motor debe realizar 6400 micropasos para producir un giro completo. Los pines de dirección y de paso están conectados a dos pines del ESP32. El pin de dirección fue configurado mediante software para producir el sentido de giro que permite desplazar el titulante desde su recipiente hasta el de la muestra. En cuanto al pin de paso, este es controlado por PWM, que genera una onda cuadrada de 10 KHz. Esto se traduce a una velocidad de 93,75~rpm en el eje del motor.
 
 Las configuraciones de software mencionadas anteriormente se realizan al inicio de la tarea de control de la bomba, en el bloque correspondiente a configuración de PWM del diagrama que muestra la figura \ref{fig:flujoBomba}.
 
@@ -132,7 +132,7 @@ Una vez realizadas las configuraciones, la tarea de control de la bomba tiene la
 
 La otra función corresponde al proceso de titulación. El requerimiento TPA-ERS-01-REQ012 establece que es necesario inyectar 0,1 mL y luego realizar una espera de 5 segundos antes de realizar la medición de pH. Esta cantidad de volumen se logra cuando el motor produce 11500 micropasos, lo que equivale a que el PWM esté activado durante 1150 ms, valor definido mediante la etiqueta T-CORTO. Además, el requerimiento contempla que, para cuando la variación de pH entre dos mediciones  sea menor a 0,2, se puede inyectar 1 mL en lugar de 0,1 mL, por lo cual se define la etiqueta T-LARGO en 11500 ms. Esto es útil para agilizar el proceso, especialmente al inicio de la titulación, donde el pH varía de manera lenta a medida que se agrega volumen, como se mostró anteriormente en la figura \ref{fig:sigmoidea}. Las pruebas que permitieron llegar a estos valores son mencionadas en el capítulo \ref{Chapter4}.
 
-Ya definidas las configuraciones y los tiempos para cada cantidad del volumen, el proceso de titulación inicia con la activación del PWM que produce el giro de la bomba hasta alcanzar la cantidad de 1 mL de titulante inyectado. Llegado a este punto, se produce una espera de 5 segundos y luego se almacena el valor leído por la tarea del electrodo junto con la cantidad de volumen acumulado. El proceso se repite hasta que la diferencia entre las dos ultimas mediciones del electrodo supere un umbral, equivalente a aproximadamente 0,2 de pH. A partir de este momento, se modifica la cantidad de volumen inyectado a 0,1 mL pero el resto del procedimiento es el mismo.
+Ya definidas las configuraciones y los tiempos para cada cantidad del volumen, el proceso de titulación inicia con la activación del PWM que produce el giro de la bomba hasta alcanzar la cantidad de 1 mL de titulante inyectado. Llegado a este punto, se produce una espera de 5 segundos y luego se almacena el valor leído por la tarea del electrodo junto con la cantidad de volumen acumulado. El proceso se repite hasta que la diferencia entre las dos últimas mediciones del electrodo supere un umbral, equivalente a aproximadamente 0,2 de pH. A partir de este momento, se modifica la cantidad de volumen inyectado a 0,1 mL pero el resto del procedimiento es el mismo.
 
 \begin{figure}[htbp]
 	\centering
@@ -141,7 +141,7 @@ Ya definidas las configuraciones y los tiempos para cada cantidad del volumen, e
 	\label{fig:flujoBomba}
 \end{figure}
 
-Una vez alcanzado el volumen de corte, o si el usuario presiona el boton de finalizar, la bomba se detiene y se llama a una función que calcula el valor de pH para cada valor almacenado en el arreglo de mediciones del electrodo. Luego, se calcula el valor de la primera derivada del pH respecto al volumen para cada uno de los valores del arreglo y se determina el volumen en el punto final en base al valor máximo de la primera derivada. Todos los valores son almacenados en la memoria micro SD y en la página web. Finalmente, el valor de volumen en el punto final es mostrado en la pantalla.
+Una vez alcanzado el volumen de corte, o si el usuario presiona el botón de finalizar, la bomba se detiene y se llama a una función que calcula el valor de pH para cada valor almacenado en el arreglo de mediciones del electrodo. Luego, se calcula el valor de la primera derivada del pH respecto al volumen para cada uno de los valores del arreglo y se determina el volumen en el punto final en base al valor máximo de la primera derivada. Todos los valores son almacenados en la memoria micro SD y en la página web. Finalmente, el valor de volumen en el punto final es mostrado en la pantalla.
 
 
 %----------------------------------------------------------------------------------------
@@ -316,7 +316,7 @@ El \textit{driver} DVR8825 tiene conectado un \textit{dip switch} que permite es
 	\label{fig:esquematicoMotores}
 \end{figure}
 
-El circuito impreso es una placa de 75 x 150 mm de dimensiones, diseñada en simple faz, y tiene como función la conexión de todos los módulos utilizados. En la figura \ref{fig:pcb3D} se observa el modelo 3D, mientras que en la figura \ref{fig:pcbPrototipo} se muestra una imagen del PCB construido de manera casera.
+El circuito impreso es una placa con dimensiones de 75 x 150~mm, diseñada en simple faz, y tiene como función la conexión de todos los módulos utilizados. En la figura \ref{fig:pcb3D} se observa el modelo 3D, mientras que en la figura \ref{fig:pcbPrototipo} se muestra una imagen del PCB construido de manera casera.
 
 
 \begin{figure}[htbp]

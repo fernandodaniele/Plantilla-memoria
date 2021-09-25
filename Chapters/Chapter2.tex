@@ -33,7 +33,7 @@ E = E_{0} + k pH
 
 donde E es el potencial corregido del electrodo, $E_{0}$ es el potencial en condiciones estándar (valores tabulados), k una variable que depende de la temperatura y pH es el valor de pH de la muestra \citep{ARTICLE:4}.
 
-En este trabajo se utilizó el electrodo comercial marca HANNA HI-1230B de la figura \ref{fig:hi-1230b}, definido por el área de Ingeniería Química, ya que permite realizar titulaciones potenciométricas ácido-base para detectar nitrógeno en suelo y alcalinidad en agua, análisis realizados normalmente en el laboratorio. Específicamente, este electrodo es de plata sumergido en una disolución de cloruro de potasio que se ha saturado con cloruro de plata, y presenta un potencial de 0 mV para un valor de pH de 7,01, y una pendiente de -0,0174pH/mV. En base a estos datos se puede crear la recta que relaciona el potencial del electrodo con el valor de pH y que está dada por la ecuación \ref{eq:phElectrodo}:
+En este trabajo se utilizó el electrodo comercial marca HANNA HI-1230B de la figura \ref{fig:hi-1230b}. Este electrodo permite realizar titulaciones potenciométricas ácido-base para detectar nitrógeno en suelo y alcalinidad en agua, análisis realizados normalmente en el laboratorio de la facultad. Específicamente, este electrodo es de plata sumergido en una disolución de cloruro de potasio que se ha saturado con cloruro de plata, y presenta un potencial de 0 mV para un valor de pH de 7,01, y una pendiente de -0,0174pH/mV. En base a estos datos se puede crear la recta que relaciona el potencial del electrodo con el valor de pH y que está dada por la ecuación \ref{eq:phElectrodo}:
 
 \begin{equation}
 	\label{eq:phElectrodo}
@@ -204,7 +204,7 @@ En segundo lugar, el módulo posee la etapa de amplificación de señal que mues
 \section{Requerimientos}
 \label{sec:requerimientos}
 
-En esta sección se detallan los requerimientos del sistema que fueron planteados en el plan trabajo, con ligeros cambios que surgieron durante el desarrollo del trabajo.
+En esta sección se detallan los requerimientos del sistema que fueron planteados en el plan de trabajo, con ligeros cambios que surgieron durante el desarrollo del trabajo.
 
 \begin{itemize}
 \item Interfaces Externas
@@ -219,16 +219,16 @@ En esta sección se detallan los requerimientos del sistema que fueron planteado
 	\begin{itemize}
 	\item El usuario debe poder elegir mediante la pantalla táctil el volumen de corte de la titulación. [TPA-ERS-01-REQ001]
 	\item El usuario debe poder elegir mediante la pantalla táctil si utilizar o no el agitador. Cuando el proceso de titulación comienza, el agitador debe activarse si así lo indicó el usuario. [TPA-ERS-01-REQ002]
-	\item El usuario debe poder realizar mediante la pantalla táctil el proceso de calibración con cada uno de los tres buffers. [TPA-ERS-01-REQ003]
+	\item El usuario debe poder realizar mediante la pantalla táctil el proceso de calibración. [TPA-ERS-01-REQ003]
 	\item Los valores de potencial obtenidos en el proceso de la calibración se deben guardar en la memoria flash del ESP32. [TPA-ERS-01-REQ004]
 	\item El valor de pH se debe calcular de manera proporcional a la recta de ajuste de los valores de potencial obtenidos en la calibración. [TPA-ERS-01-REQ005]
 	\item El usuario debe poder dar inicio al proceso de titulación mediante la pantalla táctil. [TPA-ERS-01-REQ006]
 	\item Durante la titulación, la pantalla debe mostrar el valor actual leído en mV y en pH y una gráfica de pH en función del tiempo. [TPA-ERS-01-REQ007]
-	\item Cada valor de volumen añadido junto al valor de potencial asociado durante el proceso de titulación deben almacenarse en un archivo de texto en la tarjeta sd. No es necesario que esto se haga en tiempo real. [TPA-ERS-01-REQ008]
+	\item Cada valor de volumen añadido junto al valor de potencial asociado durante el proceso de titulación deben almacenarse en un archivo de texto en la tarjeta SD. No es necesario que esto se haga en tiempo real. [TPA-ERS-01-REQ008]
 	\item Cada valor de volumen añadido junto al valor de potencial asociado durante el proceso de titulación deben mostrarse en una página web almacenada en la memoria flash, una vez finalizada la titulación. [TPA-ERS-01-REQ009]
 	\item El usuario debe poder acceder a la página web mediante una conexión Wi-Fi. No es necesario que esto se haga en tiempo real. [TPA-ERS-01-REQ010]
 	\item El sistema debe ser capaz de leer y mostrar el potencial entregado por un electrodo de pH, con una resolución de 1 mV para la lectura del potencial y de 0,01 pH para su conversión a pH. [TPA-ERS-01-REQ011]
-	\item El sistema deberá inyectar una cantidad de 0,1 mL y luego esperar 5 segundos para realizar la medición de pH. La cantidad inyectada puede ser de 1 mL si el cambio de ph entre las últimas dos mediciones es menor a 0,2. [TPA-ERS-01-REQ012]
+	\item El sistema deberá inyectar una cantidad de 0,1 mL y luego esperar 5 segundos para realizar la medición de pH. La cantidad inyectada puede ser de 1 mL si el cambio de pH entre las últimas dos mediciones es menor a 0,2. [TPA-ERS-01-REQ012]
 	 \item El sistema debe dejar de agregar titulante cuando se alcanza la cantidad de volumen indicada por el usuario como volumen de corte. [TPA-ERS-01-REQ013]
 
 \end{itemize}
